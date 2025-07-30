@@ -65,7 +65,9 @@ const OverallSummaryReport = () => {
   } = useReportType(); // Use global state
   const persistedDate = localStorage.getItem("selectedDate");
 
-  const [rawDate, setRawDate] = useState(  persistedDate ? persistedDate : getYesterdayDate());
+  const [rawDate, setRawDate] = useState(
+    persistedDate ? persistedDate : getYesterdayDate()
+  );
   useEffect(() => {
     let i = 3;
     let showDept = false;
@@ -208,19 +210,22 @@ const OverallSummaryReport = () => {
   useEffect(() => {
     if (nationalReportError) {
       toast.error(
-        `Error fetching National Report: ${nationalReportError?.message || "Unknown error"
+        `Error fetching National Report: ${
+          nationalReportError?.message || "Unknown error"
         }`
       );
     }
     if (departmentError) {
       toast.error(
-        `Error fetching Department Mapping: ${departmentError?.message || "Unknown error"
+        `Error fetching Department Mapping: ${
+          departmentError?.message || "Unknown error"
         }`
       );
     }
     if (sectorError) {
       toast.error(
-        `Error fetching Sector Mapping: ${sectorError?.message || "Unknown error"
+        `Error fetching Sector Mapping: ${
+          sectorError?.message || "Unknown error"
         }`
       );
     }
@@ -267,7 +272,9 @@ const OverallSummaryReport = () => {
   useEffect(() => {
     if (uniqueSchemes.length > 0) {
       // Filter selectedSchemes to those present in National
-      const filteredSchemes = selectedSchemes.filter(sch => uniqueSchemes.includes(sch));
+      const filteredSchemes = selectedSchemes.filter((sch) =>
+        uniqueSchemes.includes(sch)
+      );
       if (filteredSchemes.length > 0) {
         setSelectedSchemes(filteredSchemes);
       } else {
@@ -278,7 +285,9 @@ const OverallSummaryReport = () => {
 
   useEffect(() => {
     if (uniqueKPIs.length > 0) {
-      const filteredKPIs = selectedKPIs.filter(kpi => uniqueKPIs.includes(kpi));
+      const filteredKPIs = selectedKPIs.filter((kpi) =>
+        uniqueKPIs.includes(kpi)
+      );
       if (filteredKPIs.length > 0) {
         setSelectedKPIs(filteredKPIs);
       } else {
@@ -752,10 +761,7 @@ const OverallSummaryReport = () => {
 
   return (
     <>
-      <div className="flex justify-end gap-2  mb-1 ">
-        <Header />
-      </div>
-      <div className="py-2 mt-[100px] font-small ">
+      <div className="font-small ">
         {/* Report Options Row */}
         <div className="flex flex-wrap w-full items-center mx-0  py-0  rounded-xl">
           <div className="flex justfy-start  w-full  py-1">
@@ -804,23 +810,29 @@ const OverallSummaryReport = () => {
         </div>
 
         {/* Table */}
-        <div className="flex items-center justify-between w-full px- my-2 ">
-          <MultiSelectDropdown
-            onUpdateUnit={onUpdateUnit}
-            onSelectingOptions={onSelectingOptions}
-            Description={"Latest Prayas"}
-            selectedUnit={unit}
-          />
-          <h2 className="font-bold text-lg text-center flex-1 text-gray-600">
-            Historical National Level Report
-          </h2>
-          <Legends></Legends>
+        <div className="inline-flex  items-center my-2  w-[98%] ">
+          <div className="flex justify-start w-[30%]">
+            <MultiSelectDropdown
+              onUpdateUnit={onUpdateUnit}
+              onSelectingOptions={onSelectingOptions}
+              Description={"Latest Prayas"}
+              selectedUnit={unit}
+            />{" "}
+          </div>
+          <div className="flex justify-center w-[40%]">
+            <h2 className="font-bold text-lg text-center flex-1 text-gray-600">
+              Historical National Level Report
+            </h2>
+          </div>
+          <div className="flex justify-end w-[30%]">
+            <Legends />
+          </div>{" "}
         </div>
         <div className="relative mt-0 bg-white border-gray-400 overflow-scroll ">
           {loading ? (
             <Loader /> // Show loading spinner while data is being fetched
           ) : outputData && Object.keys(outputData).length > 0 ? (
-               <table className="relative w-full text-[14px] border border-gray-400 ">
+            <table className="relative w-full text-[14px] border border-gray-400 ">
               <thead className="bg-[#e3eefb]  text-black border-1 border-gray-400">
                 {/* First row with merged header */}
                 <tr>
@@ -832,10 +844,11 @@ const OverallSummaryReport = () => {
                         <th
                           key={`${schemeKey}-${kpiKey}-${index}`} // Adding a unique key
                           colSpan={totalCols}
-                          className={`border border-gray-400 px-2 py-1 text-gray-600 ${currentIndex % 2 === 0
-                            ? "bg-[#E3D8F1]"
-                            : "bg-[#DABECA]"
-                            }`}
+                          className={`border border-gray-400 px-2 py-1 text-gray-600 ${
+                            currentIndex % 2 === 0
+                              ? "bg-[#E3D8F1]"
+                              : "bg-[#DABECA]"
+                          }`}
                         >
                           <div className="flex items-center justify-center">
                             {schemeKey} | {kpiKey}{" "}
@@ -888,21 +901,20 @@ const OverallSummaryReport = () => {
                           colSpan="1"
                           className="border  border-gray-400 px-4 py-2  text-gray-600"
                           title="Value from PRAYAS Critical Report"
-
                         >
                           PRAYAS Value
                           <div className=" text-gray-600 text-[9px]">(A)</div>
                           <div className=" text-gray-600 text-[9px]">
                             {toggleValue
                               ? outputData[schemeKey][kpiKey]?.["India"][
-                              "prayas_date_of_data"
-                              ]
+                                  "prayas_date_of_data"
+                                ]
                               : outputData[schemeKey][kpiKey]?.["India"][
-                                "prayas_date_of_data"
-                              ] == "NA"
-                                ? formatToDDMMYYYY(rawDate)
-                                : outputData[schemeKey][kpiKey]?.["India"][
-                                "prayas_date_of_data"
+                                  "prayas_date_of_data"
+                                ] == "NA"
+                              ? formatToDDMMYYYY(rawDate)
+                              : outputData[schemeKey][kpiKey]?.["India"][
+                                  "prayas_date_of_data"
                                 ]}
                           </div>
                         </th>
@@ -911,7 +923,6 @@ const OverallSummaryReport = () => {
                             colSpan="3"
                             className="border  border-gray-400 px-4 py-1 text-gray-600"
                             title="Value from Native Dashboard"
-
                           >
                             <a
                               target="_blank"
@@ -933,7 +944,7 @@ const OverallSummaryReport = () => {
                                   frequency.slice(1);
                                 const rawDate =
                                   outputData[schemeKey]?.[kpiKey]?.["India"]?.[
-                                  "date_of_data"
+                                    "date_of_data"
                                   ];
 
                                 if (!rawDate) return "";
@@ -954,7 +965,6 @@ const OverallSummaryReport = () => {
                             colSpan="3"
                             className="border  border-gray-400 px-4 py-1 text-gray-600"
                             title="Value from PRAYAS Scheme View"
-
                           >
                             Prayas Scheme Dashboard Views
                             <div className=" text-gray-600 text-[9px]">
@@ -962,14 +972,14 @@ const OverallSummaryReport = () => {
                                 {(() => {
                                   const frequency =
                                     mappingData[schemeKey]?.[0]?.[
-                                    "Frequency"
+                                      "Frequency"
                                     ] || "";
                                   const formattedFreq =
                                     frequency.charAt(0).toUpperCase() +
                                     frequency.slice(1);
                                   const rawDate =
                                     outputData[schemeKey]?.[kpiKey]?.[
-                                    "India"
+                                      "India"
                                     ]?.["scheme_date_of_data"];
 
                                   if (!rawDate) return "";
@@ -996,7 +1006,7 @@ const OverallSummaryReport = () => {
                             <div className=" text-gray-600 text-[9px]">
                               {
                                 outputData[schemeKey][kpiKey]["India"][
-                                "deptExcelDate"
+                                  "deptExcelDate"
                                 ]
                               }
                             </div>
@@ -1014,7 +1024,7 @@ const OverallSummaryReport = () => {
                             <div className=" text-gray-600 text-[9px]">
                               {
                                 outputData[schemeKey][kpiKey]["India"][
-                                "date_of_data"
+                                  "date_of_data"
                                 ]
                               }
                             </div>
@@ -1038,7 +1048,6 @@ const OverallSummaryReport = () => {
                               key={`value-${schemeKey}-${kpiKey}-${index}`}
                               className="border border-gray-400 px-4 py-1 text-gray-600"
                               title="Value from Native Dashboard"
-
                             >
                               Value
                               <div className=" text-gray-600 text-[9px]">
@@ -1049,7 +1058,6 @@ const OverallSummaryReport = () => {
                               key={`diff-${schemeKey}-${kpiKey}-${index}`}
                               className="border border-gray-400 px-4 py-1 text-gray-600"
                               title="Difference between Native Dashboard Value and PRAYAS Value"
-
                             >
                               Difference
                               <div className=" text-gray-600 text-[9px]">
@@ -1075,7 +1083,6 @@ const OverallSummaryReport = () => {
                               key={`value-${schemeKey}-${kpiKey}-${index}-2`}
                               className="border border-gray-400 px-4 py-1 text-gray-600"
                               title="Value from PRAYAS Scheme View"
-
                             >
                               Value{" "}
                               <div className=" text-gray-600 text-[9px]">
@@ -1086,7 +1093,6 @@ const OverallSummaryReport = () => {
                               key={`diff-${schemeKey}-${kpiKey}-${index}-2`}
                               className="border border-gray-400 px-4 py-1 text-gray-600"
                               title="Difference between Value from PRAYAS Scheme View and PRAYAS Value"
-
                             >
                               Difference{" "}
                               <div className=" text-gray-600 text-[9px]">
@@ -1184,194 +1190,206 @@ const OverallSummaryReport = () => {
                   {Object.keys(outputData).map((schemeKey) => {
                     return Object.keys(outputData[schemeKey]).length > 0
                       ? Object.keys(outputData[schemeKey]).map(
-                        (keyRow, index) => {
-                          const row = outputData[schemeKey][keyRow]["India"]; // Assuming the 'India' key exists
-                          return (
-                            <React.Fragment key={index}>
-                              <td className="border border-gray-400 px-4 py-2">
-                                {schemeSectorMapping[schemeKey]}
-                              </td>
-                              <td className="border border-gray-400 px-4 py-2">
-                                {schemeDepartmentMapping[schemeKey]}
-                              </td>
-                              <td className="border border-gray-400 px-4 py-2">
-                                {row?.prayasValue ? row?.prayasValue : "NA"}
-                              </td>
-                              {showDepartmentView ? (
-                                <>
-                                  <td className="border border-gray-400 px-4 py-2">
-                                    {row?.nativeDashValue
-                                      ? row?.nativeDashValue
-                                      : "NA"}
-                                  </td>
-                                  <td
-                                    className={`border border-gray-400 px-4 py-2 ${row?.nativeDashDiff &&
-                                      row?.nativeDashDiff != "NA"
-                                      ? row?.nativeDashDiff == 0
-                                        ? "bg-[#78f3d1]"
-                                        : row?.nativeDashDiffPercent < 3 &&
-                                          row?.nativeDashDiffPercent > 0
-                                          ? "bg-[#f2e092]"
-                                          : row?.nativeDashDiffPercent < 0 ||
-                                            row?.nativeDashDiff < 0
+                          (keyRow, index) => {
+                            const row = outputData[schemeKey][keyRow]["India"]; // Assuming the 'India' key exists
+                            return (
+                              <React.Fragment key={index}>
+                                <td className="border border-gray-400 px-4 py-2">
+                                  {schemeSectorMapping[schemeKey]}
+                                </td>
+                                <td className="border border-gray-400 px-4 py-2">
+                                  {schemeDepartmentMapping[schemeKey]}
+                                </td>
+                                <td className="border border-gray-400 px-4 py-2">
+                                  {row?.prayasValue ? row?.prayasValue : "NA"}
+                                </td>
+                                {showDepartmentView ? (
+                                  <>
+                                    <td className="border border-gray-400 px-4 py-2">
+                                      {row?.nativeDashValue
+                                        ? row?.nativeDashValue
+                                        : "NA"}
+                                    </td>
+                                    <td
+                                      className={`border border-gray-400 px-4 py-2 ${
+                                        row?.nativeDashDiff &&
+                                        row?.nativeDashDiff != "NA"
+                                          ? row?.nativeDashDiff == 0
+                                            ? "bg-[#78f3d1]"
+                                            : row?.nativeDashDiffPercent < 3 &&
+                                              row?.nativeDashDiffPercent > 0
+                                            ? "bg-[#f2e092]"
+                                            : row?.nativeDashDiffPercent < 0 ||
+                                              row?.nativeDashDiff < 0
                                             ? "bg-[#f37a78]"
                                             : "bg-[#FFC107]"
-                                      : ""
+                                          : ""
                                       }`}
-                                  >
-                                    {row?.nativeDashDiff ||
+                                    >
+                                      {row?.nativeDashDiff ||
                                       row?.nativeDashDiff == 0
-                                      ? row?.nativeDashDiff
-                                      : "NA"}
-                                  </td>
-                                  <td
-                                    className={`border border-gray-400 px-4 py-2 ${row?.nativeDashDiff &&
-                                      row?.nativeDashDiff != "NA"
-                                      ? row?.nativeDashDiff == 0
-                                        ? "bg-[#78f3d1]"
-                                        : row?.nativeDashDiffPercent < 3 &&
-                                          row?.nativeDashDiffPercent > 0
-                                          ? "bg-[#f2e092]"
-                                          : row?.nativeDashDiffPercent < 0 ||
-                                            row?.nativeDashDiff < 0
+                                        ? row?.nativeDashDiff
+                                        : "NA"}
+                                    </td>
+                                    <td
+                                      className={`border border-gray-400 px-4 py-2 ${
+                                        row?.nativeDashDiff &&
+                                        row?.nativeDashDiff != "NA"
+                                          ? row?.nativeDashDiff == 0
+                                            ? "bg-[#78f3d1]"
+                                            : row?.nativeDashDiffPercent < 3 &&
+                                              row?.nativeDashDiffPercent > 0
+                                            ? "bg-[#f2e092]"
+                                            : row?.nativeDashDiffPercent < 0 ||
+                                              row?.nativeDashDiff < 0
                                             ? "bg-[#f37a78]"
                                             : "bg-[#FFC107]"
-                                      : ""
+                                          : ""
                                       }`}
-                                  >
-                                    {(row?.nativeDashDiffPercent &&
-                                      row?.nativeDashDiffPercent != "NA") ||
+                                    >
+                                      {(row?.nativeDashDiffPercent &&
+                                        row?.nativeDashDiffPercent != "NA") ||
                                       row?.nativeDashDiffPercent === 0
-                                      ? `${row?.nativeDashDiffPercent}%`
-                                      : "NA"}
-                                  </td>
-                                </>
-                              ) : (
-                                ""
-                              )}
-                              {showScemeView ? (
-                                <>
-                                  <td className="border border-gray-400 px-4 py-2">
-                                    {row?.schemeDashValue
-                                      ? row?.schemeDashValue
-                                      : "NA"}
-                                  </td>
-                                  <td
-                                    className={`border border-gray-400 px-4 py-2 ${row?.schemeDashDiff &&
-                                      row?.schemeDashDiff != "NA"
-                                      ? row?.schemeDashDiff == 0
-                                        ? "bg-[#78f3d1]"
-                                        : row?.schemeDashDiffPercent < 3 &&
-                                          row?.schemeDashDiffPercent > 0
-                                          ? "bg-[#f2e092]"
-                                          : row?.schemeDashDiffPercent < 0 ||
-                                            row?.schemeDashDiff < 0
+                                        ? `${row?.nativeDashDiffPercent}%`
+                                        : "NA"}
+                                    </td>
+                                  </>
+                                ) : (
+                                  ""
+                                )}
+                                {showScemeView ? (
+                                  <>
+                                    <td className="border border-gray-400 px-4 py-2">
+                                      {row?.schemeDashValue
+                                        ? row?.schemeDashValue
+                                        : "NA"}
+                                    </td>
+                                    <td
+                                      className={`border border-gray-400 px-4 py-2 ${
+                                        row?.schemeDashDiff &&
+                                        row?.schemeDashDiff != "NA"
+                                          ? row?.schemeDashDiff == 0
+                                            ? "bg-[#78f3d1]"
+                                            : row?.schemeDashDiffPercent < 3 &&
+                                              row?.schemeDashDiffPercent > 0
+                                            ? "bg-[#f2e092]"
+                                            : row?.schemeDashDiffPercent < 0 ||
+                                              row?.schemeDashDiff < 0
                                             ? "bg-[#f37a78]"
                                             : "bg-[#FFC107]"
-                                      : ""
+                                          : ""
                                       }`}
-                                  >
-                                    {row?.schemeDashDiff ||
+                                    >
+                                      {row?.schemeDashDiff ||
                                       row?.schemeDashDiff == 0
-                                      ? row?.schemeDashDiff
-                                      : "NA"}
-                                  </td>
-                                  <td
-                                    className={`border border-gray-400 px-4 py-2 ${row?.schemeDashDiff &&
-                                      row?.schemeDashDiff != "NA"
-                                      ? row?.schemeDashDiff == 0
-                                        ? "bg-[#78f3d1]"
-                                        : row?.schemeDashDiffPercent < 3 &&
-                                          row?.schemeDashDiffPercent > 0
-                                          ? "bg-[#f2e092]"
-                                          : row?.schemeDashDiffPercent < 0 ||
-                                            row?.schemeDashDiff < 0
+                                        ? row?.schemeDashDiff
+                                        : "NA"}
+                                    </td>
+                                    <td
+                                      className={`border border-gray-400 px-4 py-2 ${
+                                        row?.schemeDashDiff &&
+                                        row?.schemeDashDiff != "NA"
+                                          ? row?.schemeDashDiff == 0
+                                            ? "bg-[#78f3d1]"
+                                            : row?.schemeDashDiffPercent < 3 &&
+                                              row?.schemeDashDiffPercent > 0
+                                            ? "bg-[#f2e092]"
+                                            : row?.schemeDashDiffPercent < 0 ||
+                                              row?.schemeDashDiff < 0
                                             ? "bg-[#f37a78]"
                                             : "bg-[#FFC107]"
-                                      : ""
+                                          : ""
                                       }`}
-                                  >
-                                    {(row?.schemeDashDiffPercent &&
-                                      row?.schemeDashDiffPercent != "NA") ||
+                                    >
+                                      {(row?.schemeDashDiffPercent &&
+                                        row?.schemeDashDiffPercent != "NA") ||
                                       row?.schemeDashDiffPercent === 0
-                                      ? `${row?.schemeDashDiffPercent}%`
-                                      : "NA"}
-                                  </td>
-                                </>
-                              ) : (
-                                ""
-                              )}
-                              {showDeptExcel ? (
-                                <>
-                                  <td className="border border-gray-400 px-4 py-2">
-                                    {row?.deptExcelValue
-                                      ? row?.deptExcelValue
-                                      : "NA"}
-                                  </td>
-                                  <td className={`boxStyle ${row?.deptExcelDiff &&
+                                        ? `${row?.schemeDashDiffPercent}%`
+                                        : "NA"}
+                                    </td>
+                                  </>
+                                ) : (
+                                  ""
+                                )}
+                                {showDeptExcel ? (
+                                  <>
+                                    <td className="border border-gray-400 px-4 py-2">
+                                      {row?.deptExcelValue
+                                        ? row?.deptExcelValue
+                                        : "NA"}
+                                    </td>
+                                    <td
+                                      className={`boxStyle ${
+                                        row?.deptExcelDiff &&
                                         row?.deptExcelDiff !== "NA"
-                                        ? row?.deptExcelDiff === 0
-                                          ? "bg-[#78f3d1]"
-                                          : row?.deptExcelDiffPercent > 0 &&
-                                            row?.deptExcelDiffPercent < 3
+                                          ? row?.deptExcelDiff === 0
+                                            ? "bg-[#78f3d1]"
+                                            : row?.deptExcelDiffPercent > 0 &&
+                                              row?.deptExcelDiffPercent < 3
                                             ? "bg-[#f2e092]"
                                             : row?.deptExcelDiffPercent < 0
-                                              ? "bg-[#f37a78]"
-                                              : "bg-[#FFC107]"
-                                        : ""
-                                        }`}>
-                                    {row?.deptExcelDiff ||
+                                            ? "bg-[#f37a78]"
+                                            : "bg-[#FFC107]"
+                                          : ""
+                                      }`}
+                                    >
+                                      {row?.deptExcelDiff ||
                                       row?.deptExcelDiff == 0
-                                      ? row?.deptExcelDiff
-                                      : "NA"}
-                                  </td>
-                                  <td className={`boxStyle ${row?.deptExcelDiff &&
+                                        ? row?.deptExcelDiff
+                                        : "NA"}
+                                    </td>
+                                    <td
+                                      className={`boxStyle ${
+                                        row?.deptExcelDiff &&
                                         row?.deptExcelDiff !== "NA"
-                                        ? row?.deptExcelDiff === 0
-                                          ? "bg-[#78f3d1]"
-                                          : row?.deptExcelDiffPercent > 0 &&
-                                            row?.deptExcelDiffPercent < 3
+                                          ? row?.deptExcelDiff === 0
+                                            ? "bg-[#78f3d1]"
+                                            : row?.deptExcelDiffPercent > 0 &&
+                                              row?.deptExcelDiffPercent < 3
                                             ? "bg-[#f2e092]"
                                             : row?.deptExcelDiffPercent < 0
-                                              ? "bg-[#f37a78]"
-                                              : "bg-[#FFC107]"
-                                        : ""
-                                        }`}>
-                                    {row?.deptExcelDiff ||
+                                            ? "bg-[#f37a78]"
+                                            : "bg-[#FFC107]"
+                                          : ""
+                                      }`}
+                                    >
+                                      {row?.deptExcelDiff ||
                                       row?.deptExcelDiff === 0
-                                      ? row?.deptExcelDiffPercent == "NA" ? row?.deptExcelDiffPercent : `${row?.deptExcelDiffPercent}%`
-                                      : "NA"}
-                                  </td>
-                                </>
-                              ) : (
-                                ""
-                              )}
-                              {showDeptAPI ? (
-                                <>
-                                  <td className="border border-black px-4 py-2">
-                                    {row?.deptApiValue
-                                      ? row?.deptApiValue
-                                      : "NA"}
-                                  </td>
-                                  <td className="border border-black px-4 py-2">
-                                    {row?.deptApiDiff || row?.deptApiDiff == 0
-                                      ? row?.deptApiDiff
-                                      : "NA"}
-                                  </td>
-                                  <td className="border border-black px-4 py-2">
-                                    {row?.deptApiDiff ||
+                                        ? row?.deptExcelDiffPercent == "NA"
+                                          ? row?.deptExcelDiffPercent
+                                          : `${row?.deptExcelDiffPercent}%`
+                                        : "NA"}
+                                    </td>
+                                  </>
+                                ) : (
+                                  ""
+                                )}
+                                {showDeptAPI ? (
+                                  <>
+                                    <td className="border border-black px-4 py-2">
+                                      {row?.deptApiValue
+                                        ? row?.deptApiValue
+                                        : "NA"}
+                                    </td>
+                                    <td className="border border-black px-4 py-2">
+                                      {row?.deptApiDiff || row?.deptApiDiff == 0
+                                        ? row?.deptApiDiff
+                                        : "NA"}
+                                    </td>
+                                    <td className="border border-black px-4 py-2">
+                                      {row?.deptApiDiff ||
                                       row?.deptApiDiff === 0
-                                      ? row?.deptApiDiffPercent
-                                      : "NA"}
-                                  </td>
-                                </>
-                              ) : (
-                                ""
-                              )}
-                            </React.Fragment>
-                          );
-                        }
-                      )
+                                        ? row?.deptApiDiffPercent
+                                        : "NA"}
+                                    </td>
+                                  </>
+                                ) : (
+                                  ""
+                                )}
+                              </React.Fragment>
+                            );
+                          }
+                        )
                       : null; // Return null if there are no rows
                   })}
                 </tr>

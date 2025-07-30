@@ -1015,7 +1015,7 @@ const Download = ({
   };
 
   return (
-    <div className="flex gap-3 w-full justify-end items-center p-1 pb-[70px]">
+    <div className="flex gap-3 w-full justify-end items-center p-1">
       {state && (
         <button
           onClick={downloadExcelState}

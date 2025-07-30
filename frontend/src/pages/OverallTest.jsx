@@ -41,8 +41,6 @@ const OverallSummaryReport = () => {
     selectedOptions,
   } = useReportType(); // Use global state
 
-  
-
   const [totalCols, setTotalCols] = useState(15);
   const [departments, setDepartments] = useState([]);
   const [schemeDepartmentMapping, setSchemeDepartmentMapping] = useState({});
@@ -54,8 +52,8 @@ const OverallSummaryReport = () => {
   // const [outputData, setOutputData] = useState({});
   const [sectors, setSectors] = useState([]);
   const [loading, setLoading] = useState(true); // To handle loading state
- const [displayMsg,setDisplayMsg] = useState("No Data Available");
- const filteredOutputData = localStorage.getItem("filteredOutputData");
+  const [displayMsg, setDisplayMsg] = useState("No Data Available");
+  const filteredOutputData = localStorage.getItem("filteredOutputData");
 
   // Use RTK Query hooks
   const {
@@ -74,7 +72,6 @@ const OverallSummaryReport = () => {
     error: sectorError,
     isLoading: isSectorLoading,
   } = useFetchSectorMappingQuery();
-
 
   useEffect(() => {
     if (nationalReportError) {
@@ -107,7 +104,10 @@ const OverallSummaryReport = () => {
   useEffect(() => {
     if (nationalReportData && !filteredOutputData) {
       setLoading(false);
-      localStorage.setItem("nationalReport", JSON.stringify(nationalReportData.nationalReportData));
+      localStorage.setItem(
+        "nationalReport",
+        JSON.stringify(nationalReportData.nationalReportData)
+      );
       setOutputData(nationalReportData.nationalReportData || {});
       setoutputdata(nationalReportData.nationalReportData || {});
       setMappingdata(nationalReportData.mappingData || {});
@@ -133,7 +133,7 @@ const OverallSummaryReport = () => {
 
   // Callback function to update outputData
   const handleUpdateOutputData = (newData) => {
-    setOutputData(newData); 
+    setOutputData(newData);
     localStorage.setItem("filteredOutputData", JSON.stringify(newData));
   };
 
@@ -188,7 +188,7 @@ const OverallSummaryReport = () => {
       setShowDeptExcel(true);
       setTotalCols(15);
     }
-  }, []); 
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("selectedOptions", JSON.stringify(selectedOptions));
@@ -243,46 +243,51 @@ const OverallSummaryReport = () => {
     }
   };
 
+  useEffect(() => {
+    // On mount, read filter selections from localStorage
+    const storedSectors =
+      JSON.parse(localStorage.getItem("selectedSectors")) || [];
+    const storedDepartments =
+      JSON.parse(localStorage.getItem("selectedDepartments")) || [];
+    const storedStates =
+      JSON.parse(localStorage.getItem("selectedStates")) || [];
+    const storedSchemes =
+      JSON.parse(localStorage.getItem("selectedSchemes")) || [];
+    const storedKPIs = JSON.parse(localStorage.getItem("selectedKPIs")) || [];
 
-useEffect(() => {
-  // On mount, read filter selections from localStorage
-  const storedSectors = JSON.parse(localStorage.getItem("selectedSectors")) || [];
-  const storedDepartments = JSON.parse(localStorage.getItem("selectedDepartments")) || [];
-  const storedStates = JSON.parse(localStorage.getItem("selectedStates")) || [];
-  const storedSchemes = JSON.parse(localStorage.getItem("selectedSchemes")) || [];
-  const storedKPIs = JSON.parse(localStorage.getItem("selectedKPIs")) || [];
+    // When outputData is loaded, apply the filters
+    if (nationalReportData && storedSectors.length > 0) {
+      let filteredData = { ...nationalReportData.nationalReportData };
 
-  // When outputData is loaded, apply the filters
-  if (nationalReportData && storedSectors.length > 0) {
-    let filteredData = { ...nationalReportData.nationalReportData };
+      // Filter by schemes
+      if (storedSchemes.length > 0) {
+        filteredData = Object.keys(filteredData)
+          .filter((scheme) => storedSchemes.includes(scheme))
+          .reduce((obj, key) => {
+            obj[key] = filteredData[key];
+            return obj;
+          }, {});
+      }
 
-    // Filter by schemes
-    if (storedSchemes.length > 0) {
-      filteredData = Object.keys(filteredData)
-        .filter(scheme => storedSchemes.includes(scheme))
-        .reduce((obj, key) => { obj[key] = filteredData[key]; return obj; }, {});
+      // Filter by KPIs
+      Object.keys(filteredData).forEach((scheme) => {
+        filteredData[scheme] = Object.keys(filteredData[scheme])
+          .filter((kpi) => storedKPIs.includes(kpi))
+          .reduce((obj, key) => {
+            obj[key] = filteredData[scheme][key];
+            return obj;
+          }, {});
+      });
+
+      // [Repeat similar logic for states, sectors, departments as needed]
+
+      setOutputData(filteredData);
     }
+  }, [nationalReportData]); // Run this effect when outputData changes
 
-    // Filter by KPIs
-    Object.keys(filteredData).forEach(scheme => {
-      filteredData[scheme] = Object.keys(filteredData[scheme])
-        .filter(kpi => storedKPIs.includes(kpi))
-        .reduce((obj, key) => { obj[key] = filteredData[scheme][key]; return obj; }, {});
-    });
-
-    // [Repeat similar logic for states, sectors, departments as needed]
-
-    setOutputData(filteredData);
-  }
-}, [nationalReportData]); // Run this effect when outputData changes
-
- 
   return (
     <>
-      <div className="flex justify-end gap-2  mb-1 ">
-        <Header />
-      </div>
-      <div className="py-2 mt-[100px] font-small ">
+      <div className="font-small ">
         {/* Report Options Row */}
         <div className="flex flex-wrap w-full items-center mx-0  py-0  rounded-xl">
           <div className="flex justfy-start  w-full  py-1">
@@ -314,17 +319,23 @@ useEffect(() => {
         </div>
 
         {/* Table */}
-        <div className="flex items-center justify-between w-full px- my-2 ">
-          <MultiSelectDropdown
-            selectedUnit={unit}
-            onUpdateUnit={onUpdateUnit}
-            onSelectingOptions={onSelectingOptions}
-            Description={"Prayas Match"}
-          />
-          <h2 className="font-bold text-lg text-center flex-1 text-gray-600">
-            National Level Report
-          </h2>
-          <Legends></Legends>
+        <div className="inline-flex  items-center my-2  w-[98%] ">
+          <div className="flex justify-start w-[30%]">
+            <MultiSelectDropdown
+              selectedUnit={unit}
+              onUpdateUnit={onUpdateUnit}
+              onSelectingOptions={onSelectingOptions}
+              Description={"Prayas Match"}
+            />
+          </div>
+          <div className="flex justify-center w-[40%]">
+            <h2 className="font-bold text-lg text-center flex-1 text-gray-600">
+              National Level Report
+            </h2>{" "}
+          </div>
+          <div className="flex justify-end w-[30%]">
+            <Legends />
+          </div>{" "}
         </div>
         <div className="relative mt-0 bg-white border-gray-400 overflow-scroll ">
           {loading ? (

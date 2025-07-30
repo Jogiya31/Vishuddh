@@ -1178,10 +1178,7 @@ const DistrictSummaryReport = () => {
 
   return (
     <>
-      <div className="flex justify-end gap-2 mb-1">
-        <Header />
-      </div>
-      <div className="py-1 mt-[100px] font-small">
+      <div className="py-1 font-small">
         <div className="flex flex-wrap w-full items-center mx-0 py-0 rounded-xl">
           <div className="flex justfy-start w-full py-1">
             {!loading && !error && (
@@ -1228,19 +1225,25 @@ const DistrictSummaryReport = () => {
             )}
           </div>
         </div>
-        <div className="flex items-center justify-between w-full px-1 my-1">
-          <MultiSelectDropdown
-            onUpdateUnit={onUpdateUnit}
-            onSelectingOptions={() => {}}
-            Description={"Prayas Match"}
-            selectedUnit={unit}
-          />
-          <h2 className="font-bold text-l text-center flex-1 text-gray-600">
-            District Level Report
-          </h2>
-          <Legends />
+        <div className="inline-flex  items-center my-2  w-[98%] ">
+          <div className="flex justify-start w-[30%]">
+            <MultiSelectDropdown
+              onUpdateUnit={onUpdateUnit}
+              onSelectingOptions={() => {}}
+              Description={"Prayas Match"}
+              selectedUnit={unit}
+            />
+          </div>
+          <div className="flex justify-center w-[40%]">
+            <h2 className="font-bold text-l text-center flex-1 text-gray-600">
+              District Level Report
+            </h2>
+          </div>
+          <div className="flex justify-end w-[30%]">
+            <Legends />
+          </div>{" "}
         </div>
-        <div className="relative mt-0 bg-white border-gray-400 overflow-auto min-h-[220px] max-h-[55vh]">
+        <div className="relative mt-0 bg-white border-gray-400 overflow-auto min-h-[220px] max-h-[64vh]">
           {loading ? (
             <Loader />
           ) : outputData && Object.keys(outputData).length > 0 ? (
@@ -2267,22 +2270,24 @@ const DistrictSummaryReport = () => {
           )}
         </div>
       </div>
-      <Download
-        tableData={outputData}
-        stateDistrictMapping={filteredArray}
-        mappingData={mappingData}
-        schemeDepartmentMapping={schemeDepartmentMapping}
-        schemeSectorMapping={schemeSectorMapping}
-        district={true}
-        state={false}
-        stateName={stateName}
-        districtName={districtName}
-        showDepartmentView={showDepartmentView}
-        showScemeView={showScemeView}
-        showDeptExcel={showDeptExcel}
-        showDeptAPI={showDeptAPI}
-        reportName={"District Summary Report"}
-      />
+      {!loading && (
+        <Download
+          tableData={outputData}
+          stateDistrictMapping={filteredArray}
+          mappingData={mappingData}
+          schemeDepartmentMapping={schemeDepartmentMapping}
+          schemeSectorMapping={schemeSectorMapping}
+          district={true}
+          state={false}
+          stateName={stateName}
+          districtName={districtName}
+          showDepartmentView={showDepartmentView}
+          showScemeView={showScemeView}
+          showDeptExcel={showDeptExcel}
+          showDeptAPI={showDeptAPI}
+          reportName={"District Summary Report"}
+        />
+      )}
     </>
   );
 };

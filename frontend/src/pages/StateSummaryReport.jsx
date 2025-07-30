@@ -142,7 +142,7 @@ const StateSummaryReport = () => {
     isLoading: isSectorLoading,
   } = useFetchSectorMappingQuery();
 
-  const [displayMsg,setDisplayMsg] = useState("No Data Available");
+  const [displayMsg, setDisplayMsg] = useState("No Data Available");
   const [departments, setDepartments] = useState([]);
   const [sectors, setSectors] = useState([]);
   const [outputdata, setoutputdata] = useState(null); // Store data here
@@ -212,7 +212,7 @@ const StateSummaryReport = () => {
     // Extract sorted state names from sortedData
     const sortedStateNames = Object.keys(
       Object.values(sortedData)?.[0]?.[
-      Object.keys(Object.values(sortedData)?.[0] || {})?.[0]
+        Object.keys(Object.values(sortedData)?.[0] || {})?.[0]
       ] || {}
     );
 
@@ -247,7 +247,8 @@ const StateSummaryReport = () => {
   useEffect(() => {
     if (stateReportError) {
       toast.error(
-        `Error fetching State Report: ${stateReportError.message || "Unknown error"
+        `Error fetching State Report: ${
+          stateReportError.message || "Unknown error"
         }`,
         {
           position: "top-right",
@@ -256,14 +257,16 @@ const StateSummaryReport = () => {
     }
     if (departmentError) {
       toast.error(
-        `Error fetching Department Mapping: ${departmentError.message || "Unknown error"
+        `Error fetching Department Mapping: ${
+          departmentError.message || "Unknown error"
         }`,
         { position: "top-right" }
       );
     }
     if (sectorError) {
       toast.error(
-        `Error fetching Sector Mapping: ${sectorError.message || "Unknown error"
+        `Error fetching Sector Mapping: ${
+          sectorError.message || "Unknown error"
         }`,
         {
           position: "top-right",
@@ -284,7 +287,6 @@ const StateSummaryReport = () => {
       setOutputData(stateReportData.stateReportData);
       setMappingdata(stateReportData.mappingData);
       setDepartmentMapping(stateReportData.kpiDetails);
-
     }
     if (departmentMappingData) {
       setSchemeDepartmentMapping(departmentMappingData);
@@ -317,72 +319,78 @@ const StateSummaryReport = () => {
 
   useEffect(() => {
     const storedStates = JSON.parse(localStorage.getItem("selectedStates"));
-  if(storedStates){
+    if (storedStates) {
       if (storedStates.length > 0 && stateReportData?.stateReportData) {
-      setFilteredStates(storedStates);
-      setStateName(storedStates[0]?.["state_name"]);
-      setOutputData((prevData) => {
-        const newData = JSON.parse(
-          JSON.stringify(stateReportData.stateReportData)
-        );
-        Object.keys(newData).forEach((schemeKey) => {
-          Object.keys(newData[schemeKey]).forEach((kpiKey) => {
-            const filtered = {};
-            storedStates.forEach((state) => {
-              if (newData[schemeKey][kpiKey][state.state_name]) {
-                filtered[state.state_name] =
-                  newData[schemeKey][kpiKey][state.state_name];
-              }
+        setFilteredStates(storedStates);
+        setStateName(storedStates[0]?.["state_name"]);
+        setOutputData((prevData) => {
+          const newData = JSON.parse(
+            JSON.stringify(stateReportData.stateReportData)
+          );
+          Object.keys(newData).forEach((schemeKey) => {
+            Object.keys(newData[schemeKey]).forEach((kpiKey) => {
+              const filtered = {};
+              storedStates.forEach((state) => {
+                if (newData[schemeKey][kpiKey][state.state_name]) {
+                  filtered[state.state_name] =
+                    newData[schemeKey][kpiKey][state.state_name];
+                }
+              });
+              newData[schemeKey][kpiKey] = filtered;
             });
-            newData[schemeKey][kpiKey] = filtered;
           });
+          return newData;
         });
-        return newData;
-      });
+      }
     }
-  }
   }, [stateReportData]);
 
   useEffect(() => {
-  // On mount, read filter selections from localStorage
-  const storedSectors = JSON.parse(localStorage.getItem("selectedSectors")) || [];
-  const storedDepartments = JSON.parse(localStorage.getItem("selectedDepartments")) || [];
-  const storedStates = JSON.parse(localStorage.getItem("selectedStates")) || [];
-  const storedSchemes = JSON.parse(localStorage.getItem("selectedSchemes")) || [];
-  const storedKPIs = JSON.parse(localStorage.getItem("selectedKPIs")) || [];
+    // On mount, read filter selections from localStorage
+    const storedSectors =
+      JSON.parse(localStorage.getItem("selectedSectors")) || [];
+    const storedDepartments =
+      JSON.parse(localStorage.getItem("selectedDepartments")) || [];
+    const storedStates =
+      JSON.parse(localStorage.getItem("selectedStates")) || [];
+    const storedSchemes =
+      JSON.parse(localStorage.getItem("selectedSchemes")) || [];
+    const storedKPIs = JSON.parse(localStorage.getItem("selectedKPIs")) || [];
 
-  // When outputData is loaded, apply the filters
-  if (outputData) {
-    let filteredData = { ...outputData };
+    // When outputData is loaded, apply the filters
+    if (outputData) {
+      let filteredData = { ...outputData };
 
-    // Filter by schemes
-    if (storedSchemes.length > 0) {
-      filteredData = Object.keys(filteredData)
-        .filter(scheme => storedSchemes.includes(scheme))
-        .reduce((obj, key) => { obj[key] = filteredData[key]; return obj; }, {});
+      // Filter by schemes
+      if (storedSchemes.length > 0) {
+        filteredData = Object.keys(filteredData)
+          .filter((scheme) => storedSchemes.includes(scheme))
+          .reduce((obj, key) => {
+            obj[key] = filteredData[key];
+            return obj;
+          }, {});
+      }
+
+      // Filter by KPIs
+      Object.keys(filteredData).forEach((scheme) => {
+        filteredData[scheme] = Object.keys(filteredData[scheme])
+          .filter((kpi) => storedKPIs.includes(kpi))
+          .reduce((obj, key) => {
+            obj[key] = filteredData[scheme][key];
+            return obj;
+          }, {});
+      });
+
+      // [Repeat similar logic for states, sectors, departments as needed]
+
+      setOutputData(filteredData);
     }
-
-    // Filter by KPIs
-    Object.keys(filteredData).forEach(scheme => {
-      filteredData[scheme] = Object.keys(filteredData[scheme])
-        .filter(kpi => storedKPIs.includes(kpi))
-        .reduce((obj, key) => { obj[key] = filteredData[scheme][key]; return obj; }, {});
-    });
-
-    // [Repeat similar logic for states, sectors, departments as needed]
-
-    setOutputData(filteredData);
-  }
-}, [outputData]);
-
+  }, [outputData]);
 
   let globalIndex = 0;
   return (
     <>
-      <div className="flex justify-end gap-2  mb-1 ">
-        <Header />
-      </div>
-      <div className="py-1 mt-[100px] font-small ">
+      <div className="font-small ">
         {/* Report Options Row */}
         <div className="flex flex-wrap w-full items-center mx-0  py-0  rounded-xl">
           <div className="flex justfy-start  w-full  py-1">
@@ -413,17 +421,23 @@ const StateSummaryReport = () => {
         </div>
 
         {/* Table */}
-        <div className="flex items-center justify-between w-full px-1 my-2">
-          <MultiSelectDropdown
-            onUpdateUnit={onUpdateUnit}
-            onSelectingOptions={onSelectingOptions}
-            Description={"Prayas Match"}
-            selectedUnit={unit}
-          />
-          <h2 className="font-bold text-lg text-center flex-1 text-gray-600">
-            State Level Report
-          </h2>
-          <Legends></Legends>
+        <div className="inline-flex  items-center my-2  w-[98%] ">
+          <div className="flex justify-start w-[30%]">
+            <MultiSelectDropdown
+              onUpdateUnit={onUpdateUnit}
+              onSelectingOptions={onSelectingOptions}
+              Description={"Prayas Match"}
+              selectedUnit={unit}
+            />
+          </div>
+          <div className="flex justify-center w-[40%]">
+            <h2 className="font-bold text-lg text-center flex-1 text-gray-600">
+              State Level Report
+            </h2>{" "}
+          </div>
+          <div className="flex justify-end w-[30%]">
+            <Legends />
+          </div>{" "}
         </div>
         <div
           className="relative mt-0 bg-white border-gray-400 overflow-auto min-h-[220px]
@@ -450,10 +464,11 @@ const StateSummaryReport = () => {
                         <th
                           key={`${schemeKey}-${kpiKey}-${currentIndex}`} // Adding a unique key
                           colSpan={totalCols}
-                          className={`border border-gray-400 px-2 py-1 text-gray-600 ${currentIndex % 2 === 0
-                            ? "bg-[#E3D8F1]"
-                            : "bg-[#DABECA]"
-                            }`}
+                          className={`border border-gray-400 px-2 py-1 text-gray-600 ${
+                            currentIndex % 2 === 0
+                              ? "bg-[#E3D8F1]"
+                              : "bg-[#DABECA]"
+                          }`}
                         >
                           <div className="flex items-center justify-center">
                             {schemeKey} | {kpiKey}{" "}
@@ -544,7 +559,6 @@ const StateSummaryReport = () => {
                           colSpan="1"
                           className=" border  border-gray-400 px-4 py-1 text-gray-600 "
                           title="Value from PRAYAS Critical Report"
-
                         >
                           <div className="flex flex-row items-center justify-center">
                             Prayas Value{" "}
@@ -583,7 +597,6 @@ const StateSummaryReport = () => {
                             colSpan="3"
                             className="border  border-gray-400 px-4 py-1 text-gray-600"
                             title="Value from Native Dashboard"
-
                           >
                             <a
                               target="_blank"
@@ -670,7 +683,6 @@ const StateSummaryReport = () => {
                               key={`value-${schemeKey}-${kpiKey}-${index}`}
                               className="border border-gray-400 px-4 py-1 text-gray-600"
                               title="Value from Native Dashboard"
-
                             >
                               <div className="flex flex-row items-center justify-center">
                                 Value{" "}
@@ -709,7 +721,6 @@ const StateSummaryReport = () => {
                               key={`diff-${schemeKey}-${kpiKey}-${index}`}
                               className="border border-gray-400 px-4 py-1 text-gray-600"
                               title="Difference between Native Dashboard Value and PRAYAS Value"
-
                             >
                               {" "}
                               <div className="flex flex-row items-center justify-center">
@@ -792,7 +803,6 @@ const StateSummaryReport = () => {
                               key={`value-${schemeKey}-${kpiKey}-${index}-2`}
                               className="border border-gray-400 px-4 py-1 text-gray-600"
                               title="Value from PRAYAS Scheme View"
-
                             >
                               <div className="flex flex-row items-center justify-center">
                                 Value{" "}
@@ -831,7 +841,6 @@ const StateSummaryReport = () => {
                               key={`diff-${schemeKey}-${kpiKey}-${index}-2`}
                               className="border border-gray-400 px-4 py-1 text-gray-600"
                               title="Difference between Value from PRAYAS Scheme View and PRAYAS Value"
-
                             >
                               <div className="flex flex-row items-center justify-center">
                                 Difference
@@ -1148,229 +1157,237 @@ const StateSummaryReport = () => {
                         // Check if there are rows in the scheme
                         return Object.keys(schemeData).length > 0
                           ? Object.keys(schemeData).map((keyRow, index) => {
-                            // Access data for the specific state
-                            const row = schemeData[keyRow][
-                              state["state_name"]
-                            ]
-                              ? schemeData[keyRow][state["state_name"]]
-                              : {};
+                              // Access data for the specific state
+                              const row = schemeData[keyRow][
+                                state["state_name"]
+                              ]
+                                ? schemeData[keyRow][state["state_name"]]
+                                : {};
 
-                            return (
-                              <React.Fragment key={index}>
-                                <td className="boxStyle">
-                                  {schemeSectorMapping[schemeKey]}
-                                </td>
-                                <td className="boxStyle">
-                                  {schemeDepartmentMapping[schemeKey]}
-                                </td>
-                                <td className="boxStyle">
-                                  {row?.prayasValue ? row?.prayasValue : "NA"}
-                                </td>
-                                {showDepartmentView ? (
-                                  <>
-                                    <td className="boxStyle">
-                                      {row?.nativeDashValue
-                                        ? row?.nativeDashValue
-                                        : "NA"}
-                                    </td>
-                                    <td
-                                      className={`boxStyle ${row?.nativeDashDiff &&
-                                        row?.nativeDashDiff != "NA"
-                                        ? row?.nativeDashDiff == 0
-                                          ? "bg-[#78f3d1]"
-                                          : row?.nativeDashDiffPercent <
-                                            3 &&
-                                            row?.nativeDashDiffPercent > 0
-                                            ? "bg-[#f2e092]"
-                                            : row?.nativeDashDiffPercent < 0
+                              return (
+                                <React.Fragment key={index}>
+                                  <td className="boxStyle">
+                                    {schemeSectorMapping[schemeKey]}
+                                  </td>
+                                  <td className="boxStyle">
+                                    {schemeDepartmentMapping[schemeKey]}
+                                  </td>
+                                  <td className="boxStyle">
+                                    {row?.prayasValue ? row?.prayasValue : "NA"}
+                                  </td>
+                                  {showDepartmentView ? (
+                                    <>
+                                      <td className="boxStyle">
+                                        {row?.nativeDashValue
+                                          ? row?.nativeDashValue
+                                          : "NA"}
+                                      </td>
+                                      <td
+                                        className={`boxStyle ${
+                                          row?.nativeDashDiff &&
+                                          row?.nativeDashDiff != "NA"
+                                            ? row?.nativeDashDiff == 0
+                                              ? "bg-[#78f3d1]"
+                                              : row?.nativeDashDiffPercent <
+                                                  3 &&
+                                                row?.nativeDashDiffPercent > 0
+                                              ? "bg-[#f2e092]"
+                                              : row?.nativeDashDiffPercent < 0
                                               ? "bg-[#f37a78]"
                                               : "bg-[#FFC107]"
-                                        : ""
+                                            : ""
                                         }`}
-                                    >
-                                      {row?.nativeDashDiff ||
+                                      >
+                                        {row?.nativeDashDiff ||
                                         row?.nativeDashDiff == 0
-                                        ? row?.nativeDashDiff
-                                        : "NA"}
-                                    </td>
-                                    <td
-                                      className={`boxStyle ${row?.nativeDashDiff &&
-                                        row?.nativeDashDiff != "NA"
-                                        ? row?.nativeDashDiff == 0
-                                          ? "bg-[#78f3d1]"
-                                          : row?.nativeDashDiffPercent <
-                                            3 &&
-                                            row?.nativeDashDiffPercent > 0
-                                            ? "bg-[#f2e092]"
-                                            : row?.nativeDashDiffPercent < 0
+                                          ? row?.nativeDashDiff
+                                          : "NA"}
+                                      </td>
+                                      <td
+                                        className={`boxStyle ${
+                                          row?.nativeDashDiff &&
+                                          row?.nativeDashDiff != "NA"
+                                            ? row?.nativeDashDiff == 0
+                                              ? "bg-[#78f3d1]"
+                                              : row?.nativeDashDiffPercent <
+                                                  3 &&
+                                                row?.nativeDashDiffPercent > 0
+                                              ? "bg-[#f2e092]"
+                                              : row?.nativeDashDiffPercent < 0
                                               ? "bg-[#f37a78]"
                                               : "bg-[#FFC107]"
-                                        : ""
+                                            : ""
                                         }`}
-                                    >
-                                      {(row?.nativeDashDiffPercent &&
-                                        row?.nativeDashDiffPercent != "NA") ||
+                                      >
+                                        {(row?.nativeDashDiffPercent &&
+                                          row?.nativeDashDiffPercent != "NA") ||
                                         row?.nativeDashDiffPercent === 0
-                                        ? `${row?.nativeDashDiffPercent}%`
-                                        : "NA"}
-                                    </td>
-                                  </>
-                                ) : (
-                                  ""
-                                )}
-                                {showScemeView ? (
-                                  <>
-                                    <td className="boxStyle">
-                                      {row?.schemeDashValue
-                                        ? row?.schemeDashValue
-                                        : "NA"}
-                                    </td>
-                                    <td
-                                      className={`boxStyle ${row?.schemeDashDiff &&
-                                        row?.schemeDashDiff != "NA"
-                                        ? row?.schemeDashDiff == 0
-                                          ? "bg-[#78f3d1]"
-                                          : row?.schemeDashDiffPercent <
-                                            3 &&
-                                            row?.schemeDashDiffPercent > 0
-                                            ? "bg-[#f2e092]"
-                                            : row?.schemeDashDiffPercent < 0
+                                          ? `${row?.nativeDashDiffPercent}%`
+                                          : "NA"}
+                                      </td>
+                                    </>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {showScemeView ? (
+                                    <>
+                                      <td className="boxStyle">
+                                        {row?.schemeDashValue
+                                          ? row?.schemeDashValue
+                                          : "NA"}
+                                      </td>
+                                      <td
+                                        className={`boxStyle ${
+                                          row?.schemeDashDiff &&
+                                          row?.schemeDashDiff != "NA"
+                                            ? row?.schemeDashDiff == 0
+                                              ? "bg-[#78f3d1]"
+                                              : row?.schemeDashDiffPercent <
+                                                  3 &&
+                                                row?.schemeDashDiffPercent > 0
+                                              ? "bg-[#f2e092]"
+                                              : row?.schemeDashDiffPercent < 0
                                               ? "bg-[#f37a78]"
                                               : "bg-[#FFC107]"
-                                        : ""
+                                            : ""
                                         }`}
-                                    >
-                                      {row?.schemeDashDiff ||
+                                      >
+                                        {row?.schemeDashDiff ||
                                         row?.schemeDashDiff == 0
-                                        ? row?.schemeDashDiff
-                                        : "NA"}
-                                    </td>
-                                    <td
-                                      className={`boxStyle ${row?.schemeDashDiff &&
-                                        row?.schemeDashDiff != "NA"
-                                        ? row?.schemeDashDiff == 0
-                                          ? "bg-[#78f3d1]"
-                                          : row?.schemeDashDiffPercent <
-                                            3 &&
-                                            row?.schemeDashDiffPercent > 0
-                                            ? "bg-[#f2e092]"
-                                            : row?.schemeDashDiffPercent < 0
+                                          ? row?.schemeDashDiff
+                                          : "NA"}
+                                      </td>
+                                      <td
+                                        className={`boxStyle ${
+                                          row?.schemeDashDiff &&
+                                          row?.schemeDashDiff != "NA"
+                                            ? row?.schemeDashDiff == 0
+                                              ? "bg-[#78f3d1]"
+                                              : row?.schemeDashDiffPercent <
+                                                  3 &&
+                                                row?.schemeDashDiffPercent > 0
+                                              ? "bg-[#f2e092]"
+                                              : row?.schemeDashDiffPercent < 0
                                               ? "bg-[#f37a78]"
                                               : "bg-[#FFC107]"
-                                        : ""
+                                            : ""
                                         }`}
-                                    >
-                                      {(row?.schemeDashDiffPercent &&
-                                        row?.schemeDashDiffPercent != "NA") ||
+                                      >
+                                        {(row?.schemeDashDiffPercent &&
+                                          row?.schemeDashDiffPercent != "NA") ||
                                         row?.schemeDashDiffPercent === 0
-                                        ? `${row?.schemeDashDiffPercent}%`
-                                        : "NA"}
-                                    </td>
-                                  </>
-                                ) : (
-                                  ""
-                                )}
-                                {showDeptExcel ? (
-                                  <>
-                                    <td className="boxStyle ">
-                                      {row?.deptExcelValue
-                                        ? row?.deptExcelValue
-                                        : "NA"}
-                                    </td>
-                                    <td
-                                      className={`boxStyle ${row?.deptExcelDiff &&
-                                        row?.deptExcelDiff !== "NA"
-                                        ? row?.deptExcelDiff === 0
-                                          ? "bg-[#78f3d1]"
-                                          : row?.deptExcelDiffPercent > 0 &&
-                                            row?.deptExcelDiffPercent < 3
-                                            ? "bg-[#f2e092]"
-                                            : row?.deptExcelDiffPercent < 0
+                                          ? `${row?.schemeDashDiffPercent}%`
+                                          : "NA"}
+                                      </td>
+                                    </>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {showDeptExcel ? (
+                                    <>
+                                      <td className="boxStyle ">
+                                        {row?.deptExcelValue
+                                          ? row?.deptExcelValue
+                                          : "NA"}
+                                      </td>
+                                      <td
+                                        className={`boxStyle ${
+                                          row?.deptExcelDiff &&
+                                          row?.deptExcelDiff !== "NA"
+                                            ? row?.deptExcelDiff === 0
+                                              ? "bg-[#78f3d1]"
+                                              : row?.deptExcelDiffPercent > 0 &&
+                                                row?.deptExcelDiffPercent < 3
+                                              ? "bg-[#f2e092]"
+                                              : row?.deptExcelDiffPercent < 0
                                               ? "bg-[#f37a78]"
                                               : "bg-[#FFC107]"
-                                        : ""
+                                            : ""
                                         }`}
-                                    >
-                                      {row?.deptExcelDiff ||
+                                      >
+                                        {row?.deptExcelDiff ||
                                         row?.deptExcelDiff == 0
-                                        ? row?.deptExcelDiff
-                                        : "NA"}
-                                    </td>
-                                    <td
-                                      className={`boxStyle ${row?.deptExcelDiff &&
-                                        row?.deptExcelDiff !== "NA"
-                                        ? row?.deptExcelDiff === 0
-                                          ? "bg-[#78f3d1]"
-                                          : row?.deptExcelDiffPercent > 0 &&
-                                            row?.deptExcelDiffPercent < 3
-                                            ? "bg-[#f2e092]"
-                                            : row?.deptExcelDiffPercent < 0
+                                          ? row?.deptExcelDiff
+                                          : "NA"}
+                                      </td>
+                                      <td
+                                        className={`boxStyle ${
+                                          row?.deptExcelDiff &&
+                                          row?.deptExcelDiff !== "NA"
+                                            ? row?.deptExcelDiff === 0
+                                              ? "bg-[#78f3d1]"
+                                              : row?.deptExcelDiffPercent > 0 &&
+                                                row?.deptExcelDiffPercent < 3
+                                              ? "bg-[#f2e092]"
+                                              : row?.deptExcelDiffPercent < 0
                                               ? "bg-[#f37a78]"
                                               : "bg-[#FFC107]"
-                                        : ""
+                                            : ""
                                         }`}
-                                    >
-                                      {row?.deptExcelDiff ||
+                                      >
+                                        {row?.deptExcelDiff ||
                                         row?.deptExcelDiff === 0
-                                        ? row?.deptExcelDiffPercent
-                                        : "NA"}
-                                    </td>
-                                  </>
-                                ) : (
-                                  ""
-                                )}
-                                {showDeptAPI ? (
-                                  <>
-                                    <td className="border border-black px-4 py-2">
-                                      {row?.deptApiValue
-                                        ? row?.deptApiValue
-                                        : "NA"}
-                                    </td>
-                                    <td
-                                      className={`boxStyle ${row?.deptApiDiff &&
-                                        row?.deptApiDiff !== "NA"
-                                        ? row?.deptApiDiff === 0
-                                          ? "bg-[#78f3d1]"
-                                          : row?.deptApiDiff > 0 &&
-                                            row?.deptApiDiff < 3
-                                            ? "bg-[#f2e092]"
-                                            : row?.deptApiDiff < 0
+                                          ? row?.deptExcelDiffPercent
+                                          : "NA"}
+                                      </td>
+                                    </>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {showDeptAPI ? (
+                                    <>
+                                      <td className="border border-black px-4 py-2">
+                                        {row?.deptApiValue
+                                          ? row?.deptApiValue
+                                          : "NA"}
+                                      </td>
+                                      <td
+                                        className={`boxStyle ${
+                                          row?.deptApiDiff &&
+                                          row?.deptApiDiff !== "NA"
+                                            ? row?.deptApiDiff === 0
+                                              ? "bg-[#78f3d1]"
+                                              : row?.deptApiDiff > 0 &&
+                                                row?.deptApiDiff < 3
+                                              ? "bg-[#f2e092]"
+                                              : row?.deptApiDiff < 0
                                               ? "bg-[#f37a78]"
                                               : "bg-[#FFC107]"
-                                        : ""
+                                            : ""
                                         }`}
-                                    >
-                                      {row?.deptApiDiff ||
+                                      >
+                                        {row?.deptApiDiff ||
                                         row?.deptApiDiff == 0
-                                        ? row?.deptApiDiff
-                                        : "NA"}
-                                    </td>
-                                    <td
-                                      className={`boxStyle ${row?.deptApiDiff &&
-                                        row?.deptApiDiff !== "NA"
-                                        ? row?.deptApiDiff === 0
-                                          ? "bg-[#78f3d1]"
-                                          : row?.deptApiDiff > 0 &&
-                                            row?.deptApiDiff < 3
-                                            ? "bg-[#f2e092]"
-                                            : row?.deptApiDiff < 0
+                                          ? row?.deptApiDiff
+                                          : "NA"}
+                                      </td>
+                                      <td
+                                        className={`boxStyle ${
+                                          row?.deptApiDiff &&
+                                          row?.deptApiDiff !== "NA"
+                                            ? row?.deptApiDiff === 0
+                                              ? "bg-[#78f3d1]"
+                                              : row?.deptApiDiff > 0 &&
+                                                row?.deptApiDiff < 3
+                                              ? "bg-[#f2e092]"
+                                              : row?.deptApiDiff < 0
                                               ? "bg-[#f37a78]"
                                               : "bg-[#FFC107]"
-                                        : ""
+                                            : ""
                                         }`}
-                                    >
-                                      {row?.deptApiDiff ||
+                                      >
+                                        {row?.deptApiDiff ||
                                         row?.deptApiDiff === 0
-                                        ? row?.deptApiDiffPercent
-                                        : "NA"}
-                                    </td>
-                                  </>
-                                ) : (
-                                  ""
-                                )}
-                              </React.Fragment>
-                            );
-                          })
+                                          ? row?.deptApiDiffPercent
+                                          : "NA"}
+                                      </td>
+                                    </>
+                                  ) : (
+                                    ""
+                                  )}
+                                </React.Fragment>
+                              );
+                            })
                           : null; // Return null if there are no rows in scheme
                       })}
                     </tr>

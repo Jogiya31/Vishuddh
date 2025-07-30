@@ -1061,10 +1061,7 @@ const HistoricalDistrictReport = () => {
   };
   return (
     <>
-      <div className="flex justify-end gap-2  mb-1 ">
-        <Header />
-      </div>
-      <div className="py-2 mt-[100px] font-small ">
+      <div className="font-small ">
         <div className="flex flex-wrap w-full items-center mx-0  py-0  rounded-xl">
           <div className="flex justfy-start  w-full  py-1">
             <div className="flex justfy-start  w-full  py-1">
@@ -1117,18 +1114,23 @@ const HistoricalDistrictReport = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-between w-full px-1 my-2">
-          <MultiSelectDropdown
-            onUpdateUnit={setUnit}
-            onSelectingOptions={() => {}}
-            Description={"Latest Prayas"}
-            selectedUnit={unit}
-          />
-
-          <h2 className="font-bold text-lg text-center flex-1 text-gray-600">
-            Historical District Level Report
-          </h2>
-          <Legends></Legends>
+        <div className="inline-flex  items-center my-2  w-[98%] ">
+          <div className="flex justify-start w-[30%]">
+            <MultiSelectDropdown
+              onUpdateUnit={setUnit}
+              onSelectingOptions={() => {}}
+              Description={"Latest Prayas"}
+              selectedUnit={unit}
+            />
+          </div>
+          <div className="flex justify-center w-[40%]">
+            <h2 className="font-bold text-lg text-center flex-1 text-gray-600">
+              Historical District Level Report
+            </h2>
+          </div>
+          <div className="flex justify-end w-[30%]">
+            <Legends />
+          </div>{" "}
         </div>
         <div
           className="relative mt-0 bg-white border-gray-400 overflow-auto min-h-[220px]

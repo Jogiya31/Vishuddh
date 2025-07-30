@@ -26,11 +26,13 @@ const getInitial = (key, def) => {
     return def;
   }
 };
-  const persistedDate = localStorage.getItem("selectedDate");
+const persistedDate = localStorage.getItem("selectedDate");
 
 const StateSummaryReport = () => {
   const [totalCols, setTotalCols] = useState(15);
-  const [rawDate, setRawDate] = useState(  persistedDate ? persistedDate : getYesterdayDate());
+  const [rawDate, setRawDate] = useState(
+    persistedDate ? persistedDate : getYesterdayDate()
+  );
   const [displayMsg, setDisplayMsg] = useState("No Data Available");
 
   const {
@@ -371,57 +373,63 @@ const StateSummaryReport = () => {
   };
 
   // Sorting the data inside outputData (table data ordering)
-const sortData = (key, schemeKey, kpiKey) => {
-  // Defensive: deep copy to avoid mutating state
-  const sortedData = JSON.parse(JSON.stringify(outputData));
-  const states = outputData[schemeKey][kpiKey];
-  
-  // Sort state entries
-  const sortedStates = Object.entries(states)
-    .sort(([stateA, dataA], [stateB, dataB]) => {
-      // Extract/normalize values
-      const getValue = (data) => {
-        let val = data?.[key];
-        if (val === undefined || val === null || val === "" || val === "NA") return null;
-        // Try numeric
-        const numVal = Number(String(val).replace(/,/g, ""));
-        if (!isNaN(numVal)) return numVal;
-        return val;
-      };
-      const valueA = getValue(dataA);
-      const valueB = getValue(dataB);
+  const sortData = (key, schemeKey, kpiKey) => {
+    // Defensive: deep copy to avoid mutating state
+    const sortedData = JSON.parse(JSON.stringify(outputData));
+    const states = outputData[schemeKey][kpiKey];
 
-      // "NA"/null always sorts last
-      if (valueA === null && valueB !== null) return 1;
-      if (valueA !== null && valueB === null) return -1;
-      if (valueA === null && valueB === null) return 0;
+    // Sort state entries
+    const sortedStates = Object.entries(states)
+      .sort(([stateA, dataA], [stateB, dataB]) => {
+        // Extract/normalize values
+        const getValue = (data) => {
+          let val = data?.[key];
+          if (val === undefined || val === null || val === "" || val === "NA")
+            return null;
+          // Try numeric
+          const numVal = Number(String(val).replace(/,/g, ""));
+          if (!isNaN(numVal)) return numVal;
+          return val;
+        };
+        const valueA = getValue(dataA);
+        const valueB = getValue(dataB);
 
-      // Numeric sort if both numbers
-      if (typeof valueA === "number" && typeof valueB === "number") {
-        return dataAscending ? valueA - valueB : valueB - valueA;
-      }
-      // Fallback string sort
-      if (dataAscending) {
-        return String(valueA).localeCompare(String(valueB));
-      } else {
-        return String(valueB).localeCompare(String(valueA));
-      }
-    })
-    .reduce((acc, [state, data]) => {
-      acc[state] = data;
-      return acc;
-    }, {});
+        // "NA"/null always sorts last
+        if (valueA === null && valueB !== null) return 1;
+        if (valueA !== null && valueB === null) return -1;
+        if (valueA === null && valueB === null) return 0;
 
-  sortedData[schemeKey][kpiKey] = sortedStates;
+        // Numeric sort if both numbers
+        if (typeof valueA === "number" && typeof valueB === "number") {
+          return dataAscending ? valueA - valueB : valueB - valueA;
+        }
+        // Fallback string sort
+        if (dataAscending) {
+          return String(valueA).localeCompare(String(valueB));
+        } else {
+          return String(valueB).localeCompare(String(valueA));
+        }
+      })
+      .reduce((acc, [state, data]) => {
+        acc[state] = data;
+        return acc;
+      }, {});
 
-  // Update filteredStates order to match sorted states
-  const sortedStateNames = Object.keys(sortedStates);
-  const sortedFilterStates = stateArray.filter(s => sortedStateNames.includes(s.state_name))
-    .sort((a, b) => sortedStateNames.indexOf(a.state_name) - sortedStateNames.indexOf(b.state_name));
-  setFilteredStates(sortedFilterStates);
-  setOutputData(sortedData); // Optional: update outputData if you want to re-sort for future sorts
-  setDataAscending(!dataAscending);
-};
+    sortedData[schemeKey][kpiKey] = sortedStates;
+
+    // Update filteredStates order to match sorted states
+    const sortedStateNames = Object.keys(sortedStates);
+    const sortedFilterStates = stateArray
+      .filter((s) => sortedStateNames.includes(s.state_name))
+      .sort(
+        (a, b) =>
+          sortedStateNames.indexOf(a.state_name) -
+          sortedStateNames.indexOf(b.state_name)
+      );
+    setFilteredStates(sortedFilterStates);
+    setOutputData(sortedData); // Optional: update outputData if you want to re-sort for future sorts
+    setDataAscending(!dataAscending);
+  };
 
   // Unit Change Handler
   const onUpdateUnit = (unit) => {
@@ -751,10 +759,7 @@ const sortData = (key, schemeKey, kpiKey) => {
 
   return (
     <>
-      <div className="flex justify-end gap-2 w-full mb-1 ">
-        <Header />
-      </div>
-      <div id="state" className="py-2 mt-[100px] font-small w-full ">
+      <div id="state" className="font-small w-full ">
         {/* Report Options Row */}
         <div className="flex flex-wrap w-full items-center mx-0  py-0 w-full rounded-xl">
           <div className="flex justfy-start  w-full  py-1">
@@ -806,17 +811,23 @@ const sortData = (key, schemeKey, kpiKey) => {
         </div>
 
         {/* Table */}
-        <div className="flex items-center justify-between w-full px-1 my-2">
-          <MultiSelectDropdown
-            onUpdateUnit={onUpdateUnit}
-            onSelectingOptions={onSelectingOptions}
-            Description={"Latest Prayas"}
-            selectedUnit={unit}
-          />
-          <h2 className="font-bold text-lg text-center flex-1 text-gray-600">
-            Historical State Report
-          </h2>
-          <Legends></Legends>
+        <div className="inline-flex  items-center my-2  w-[98%] ">
+          <div className="flex justify-start w-[30%]">
+            <MultiSelectDropdown
+              onUpdateUnit={onUpdateUnit}
+              onSelectingOptions={onSelectingOptions}
+              Description={"Latest Prayas"}
+              selectedUnit={unit}
+            />
+          </div>
+          <div className="flex justify-center w-[40%]">
+            <h2 className="font-bold text-lg text-center flex-1 text-gray-600">
+              Historical State Report
+            </h2>
+          </div>
+          <div className="flex justify-end w-[30%]">
+            <Legends />
+          </div>{" "}
         </div>
         <div
           className="relative mt-0 bg-white border-gray-400  w-full overflow-auto  min-h-[220px]
@@ -824,9 +835,8 @@ const sortData = (key, schemeKey, kpiKey) => {
         >
           {loading ? (
             <Loader />
-          ) : outputData &&
-            Object.keys(outputData).length > 0 ? (
-               <table
+          ) : outputData && Object.keys(outputData).length > 0 ? (
+            <table
               id="stateTable"
               className="relative w-full text-[14px] border border-gray-400 "
             >
@@ -844,10 +854,11 @@ const sortData = (key, schemeKey, kpiKey) => {
                         <th
                           key={`${schemeKey}-${kpiKey}-${currentIndex}`} // Adding a unique key
                           colSpan={totalCols}
-                          className={`border border-gray-400 px-2 py-1 text-gray-600 ${currentIndex % 2 === 0
-                            ? "bg-[#E3D8F1]"
-                            : "bg-[#DABECA]"
-                            }`}
+                          className={`border border-gray-400 px-2 py-1 text-gray-600 ${
+                            currentIndex % 2 === 0
+                              ? "bg-[#E3D8F1]"
+                              : "bg-[#DABECA]"
+                          }`}
                         >
                           <div className="flex items-center justify-center">
                             {schemeKey} | {kpiKey}{" "}
@@ -974,7 +985,7 @@ const sortData = (key, schemeKey, kpiKey) => {
                                 frequency.slice(1);
                               const rawDate =
                                 outputData[schemeKey]?.[kpiKey]?.[stateName]?.[
-                                "prayas_date_of_data"
+                                  "prayas_date_of_data"
                                 ];
 
                               if (!rawDate) return "";
@@ -983,7 +994,7 @@ const sortData = (key, schemeKey, kpiKey) => {
                               if (isNaN(date.getTime())) return "";
                               return formattedFreq === "Daily"
                                 ? rawDate
-                                : rawDate
+                                : rawDate;
                             })()}
                           </div>
                         </th>
@@ -992,7 +1003,6 @@ const sortData = (key, schemeKey, kpiKey) => {
                             colSpan="3"
                             className="border  border-gray-400 px-4 py-1 text-gray-600"
                             title="Value from Native Dashboard"
-
                           >
                             <a
                               target="_blank"
@@ -1014,7 +1024,7 @@ const sortData = (key, schemeKey, kpiKey) => {
                                   frequency.slice(1);
                                 const rawDate =
                                   outputData[schemeKey]?.[kpiKey]?.[
-                                  stateName
+                                    stateName
                                   ]?.["date_of_data"];
 
                                 if (!rawDate) return "";
@@ -1024,9 +1034,9 @@ const sortData = (key, schemeKey, kpiKey) => {
                                 return formattedFreq === "Daily"
                                   ? rawDate
                                   : // : `${date.toLocaleString("default", {
-                                  //     month: "long",
-                                  //   })},${date.getFullYear()}(${rawDate})`;
-                                  rawDate;
+                                    //     month: "long",
+                                    //   })},${date.getFullYear()}(${rawDate})`;
+                                    rawDate;
                               })()}
                             </div>
                           </th>
@@ -1038,7 +1048,6 @@ const sortData = (key, schemeKey, kpiKey) => {
                             colSpan="3"
                             className="border  border-gray-400 px-4 py-1 text-gray-600"
                             title="Value from PRAYAS Scheme View"
-
                           >
                             Prayas Scheme Dashboard Views
                             <div className=" text-gray-600 text-[9px]">
@@ -1046,14 +1055,14 @@ const sortData = (key, schemeKey, kpiKey) => {
                                 {(() => {
                                   const frequency =
                                     mappingData[schemeKey]?.[0]?.[
-                                    "Frequency"
+                                      "Frequency"
                                     ] || "";
                                   const formattedFreq =
                                     frequency.charAt(0).toUpperCase() +
                                     frequency.slice(1);
                                   const rawDate =
                                     outputData[schemeKey]?.[kpiKey]?.[
-                                    stateName
+                                      stateName
                                     ]?.["scheme_date_of_data"];
 
                                   if (!rawDate) return "";
@@ -1118,7 +1127,6 @@ const sortData = (key, schemeKey, kpiKey) => {
                               key={`value-${schemeKey}-${kpiKey}-${index}`}
                               className="border border-gray-400 px-4 py-1 text-gray-600"
                               title="Value from Native Dashboard"
-
                             >
                               <div className="flex flex-row items-center justify-center">
                                 Value{" "}
@@ -1156,7 +1164,6 @@ const sortData = (key, schemeKey, kpiKey) => {
                               key={`diff-${schemeKey}-${kpiKey}-${index}`}
                               className="border border-gray-400 px-4 py-1 text-gray-600"
                               title="Difference between Native Dashboard Value and PRAYAS Value"
-
                             >
                               {" "}
                               <div className="flex flex-row items-center justify-center">
@@ -1237,7 +1244,6 @@ const sortData = (key, schemeKey, kpiKey) => {
                               key={`value-${schemeKey}-${kpiKey}-${index}-2`}
                               className="border border-gray-400 px-4 py-1 text-gray-600"
                               title="Value from PRAYAS Scheme View"
-
                             >
                               <div className="flex flex-row items-center justify-center">
                                 Value{" "}
@@ -1275,7 +1281,6 @@ const sortData = (key, schemeKey, kpiKey) => {
                               key={`diff-${schemeKey}-${kpiKey}-${index}-2`}
                               className="border border-gray-400 px-4 py-1 text-gray-600"
                               title="Difference between Value from PRAYAS Scheme View and PRAYAS Value"
-
                             >
                               <div className="flex flex-row items-center justify-center">
                                 Difference
@@ -1590,229 +1595,239 @@ const sortData = (key, schemeKey, kpiKey) => {
                         // Check if there are rows in the scheme
                         return Object.keys(schemeData).length > 0
                           ? Object.keys(schemeData).map((keyRow, index) => {
-                            // Access data for the specific state
-                            const row = schemeData[keyRow][
-                              state["state_name"]
-                            ]
-                              ? schemeData[keyRow][state["state_name"]]
-                              : {};
+                              // Access data for the specific state
+                              const row = schemeData[keyRow][
+                                state["state_name"]
+                              ]
+                                ? schemeData[keyRow][state["state_name"]]
+                                : {};
 
-                            return (
-                              <React.Fragment key={index}>
-                                <td className="boxStyle">
-                                  {schemeSectorMapping[schemeKey]}
-                                </td>
-                                <td className="boxStyle">
-                                  {schemeDepartmentMapping[schemeKey]}
-                                </td>
-                                <td className="boxStyle">
-                                  {row?.prayasValue ? row?.prayasValue : "NA"}
-                                </td>
-                                {showDepartmentView ? (
-                                  <>
-                                    <td className="boxStyle">
-                                      {row?.nativeDashValue
-                                        ? row?.nativeDashValue
-                                        : "NA"}
-                                    </td>
-                                    <td
-                                      className={`boxStyle ${row?.nativeDashDiff &&
-                                        row?.nativeDashDiff != "NA"
-                                        ? row?.nativeDashDiff == 0
-                                          ? "bg-[#78f3d1]"
-                                          : row?.nativeDashDiffPercent <
-                                            3 &&
-                                            row?.nativeDashDiffPercent > 0
-                                            ? "bg-[#f2e092]"
-                                            : row?.nativeDashDiffPercent < 0
+                              return (
+                                <React.Fragment key={index}>
+                                  <td className="boxStyle">
+                                    {schemeSectorMapping[schemeKey]}
+                                  </td>
+                                  <td className="boxStyle">
+                                    {schemeDepartmentMapping[schemeKey]}
+                                  </td>
+                                  <td className="boxStyle">
+                                    {row?.prayasValue ? row?.prayasValue : "NA"}
+                                  </td>
+                                  {showDepartmentView ? (
+                                    <>
+                                      <td className="boxStyle">
+                                        {row?.nativeDashValue
+                                          ? row?.nativeDashValue
+                                          : "NA"}
+                                      </td>
+                                      <td
+                                        className={`boxStyle ${
+                                          row?.nativeDashDiff &&
+                                          row?.nativeDashDiff != "NA"
+                                            ? row?.nativeDashDiff == 0
+                                              ? "bg-[#78f3d1]"
+                                              : row?.nativeDashDiffPercent <
+                                                  3 &&
+                                                row?.nativeDashDiffPercent > 0
+                                              ? "bg-[#f2e092]"
+                                              : row?.nativeDashDiffPercent < 0
                                               ? "bg-[#f37a78]"
                                               : "bg-[#FFC107]"
-                                        : ""
+                                            : ""
                                         }`}
-                                    >
-                                      {row?.nativeDashDiff ||
+                                      >
+                                        {row?.nativeDashDiff ||
                                         row?.nativeDashDiff == 0
-                                        ? row?.nativeDashDiff
-                                        : "NA"}
-                                    </td>
-                                    <td
-                                      className={`boxStyle ${row?.nativeDashDiff &&
-                                        row?.nativeDashDiff != "NA"
-                                        ? row?.nativeDashDiff == 0
-                                          ? "bg-[#78f3d1]"
-                                          : row?.nativeDashDiffPercent <
-                                            3 &&
-                                            row?.nativeDashDiffPercent > 0
-                                            ? "bg-[#f2e092]"
-                                            : row?.nativeDashDiffPercent < 0
+                                          ? row?.nativeDashDiff
+                                          : "NA"}
+                                      </td>
+                                      <td
+                                        className={`boxStyle ${
+                                          row?.nativeDashDiff &&
+                                          row?.nativeDashDiff != "NA"
+                                            ? row?.nativeDashDiff == 0
+                                              ? "bg-[#78f3d1]"
+                                              : row?.nativeDashDiffPercent <
+                                                  3 &&
+                                                row?.nativeDashDiffPercent > 0
+                                              ? "bg-[#f2e092]"
+                                              : row?.nativeDashDiffPercent < 0
                                               ? "bg-[#f37a78]"
                                               : "bg-[#FFC107]"
-                                        : ""
+                                            : ""
                                         }`}
-                                    >
-                                      {(row?.nativeDashDiffPercent &&
-                                        row?.nativeDashDiffPercent != "NA") ||
+                                      >
+                                        {(row?.nativeDashDiffPercent &&
+                                          row?.nativeDashDiffPercent != "NA") ||
                                         row?.nativeDashDiffPercent === 0
-                                        ? `${row?.nativeDashDiffPercent}%`
-                                        : "NA"}
-                                    </td>
-                                  </>
-                                ) : (
-                                  ""
-                                )}
-                                {showScemeView ? (
-                                  <>
-                                    <td className="boxStyle">
-                                      {row?.schemeDashValue
-                                        ? row?.schemeDashValue
-                                        : "NA"}
-                                    </td>
-                                    <td
-                                      className={`boxStyle ${row?.schemeDashDiff &&
-                                        row?.schemeDashDiff != "NA"
-                                        ? row?.schemeDashDiff == 0
-                                          ? "bg-[#78f3d1]"
-                                          : row?.schemeDashDiffPercent <
-                                            3 &&
-                                            row?.schemeDashDiffPercent > 0
-                                            ? "bg-[#f2e092]"
-                                            : row?.schemeDashDiffPercent < 0
+                                          ? `${row?.nativeDashDiffPercent}%`
+                                          : "NA"}
+                                      </td>
+                                    </>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {showScemeView ? (
+                                    <>
+                                      <td className="boxStyle">
+                                        {row?.schemeDashValue
+                                          ? row?.schemeDashValue
+                                          : "NA"}
+                                      </td>
+                                      <td
+                                        className={`boxStyle ${
+                                          row?.schemeDashDiff &&
+                                          row?.schemeDashDiff != "NA"
+                                            ? row?.schemeDashDiff == 0
+                                              ? "bg-[#78f3d1]"
+                                              : row?.schemeDashDiffPercent <
+                                                  3 &&
+                                                row?.schemeDashDiffPercent > 0
+                                              ? "bg-[#f2e092]"
+                                              : row?.schemeDashDiffPercent < 0
                                               ? "bg-[#f37a78]"
                                               : "bg-[#FFC107]"
-                                        : ""
+                                            : ""
                                         }`}
-                                    >
-                                      {row?.schemeDashDiff ||
+                                      >
+                                        {row?.schemeDashDiff ||
                                         row?.schemeDashDiff == 0
-                                        ? row?.schemeDashDiff
-                                        : "NA"}
-                                    </td>
-                                    <td
-                                      className={`boxStyle ${row?.schemeDashDiff &&
-                                        row?.schemeDashDiff != "NA"
-                                        ? row?.schemeDashDiff == 0
-                                          ? "bg-[#78f3d1]"
-                                          : row?.schemeDashDiffPercent <
-                                            3 &&
-                                            row?.schemeDashDiffPercent > 0
-                                            ? "bg-[#f2e092]"
-                                            : row?.schemeDashDiffPercent < 0
+                                          ? row?.schemeDashDiff
+                                          : "NA"}
+                                      </td>
+                                      <td
+                                        className={`boxStyle ${
+                                          row?.schemeDashDiff &&
+                                          row?.schemeDashDiff != "NA"
+                                            ? row?.schemeDashDiff == 0
+                                              ? "bg-[#78f3d1]"
+                                              : row?.schemeDashDiffPercent <
+                                                  3 &&
+                                                row?.schemeDashDiffPercent > 0
+                                              ? "bg-[#f2e092]"
+                                              : row?.schemeDashDiffPercent < 0
                                               ? "bg-[#f37a78]"
                                               : "bg-[#FFC107]"
-                                        : ""
+                                            : ""
                                         }`}
-                                    >
-                                      {(row?.schemeDashDiffPercent &&
-                                        row?.schemeDashDiffPercent != "NA") ||
+                                      >
+                                        {(row?.schemeDashDiffPercent &&
+                                          row?.schemeDashDiffPercent != "NA") ||
                                         row?.schemeDashDiffPercent === 0
-                                        ? `${row?.schemeDashDiffPercent}%`
-                                        : "NA"}
-                                    </td>
-                                  </>
-                                ) : (
-                                  ""
-                                )}
-                                {showDeptExcel ? (
-                                  <>
-                                    <td className="boxStyle ">
-                                      {row?.deptExcelValue
-                                        ? row?.deptExcelValue
-                                        : "NA"}
-                                    </td>
-                                    <td
-                                      className={`boxStyle ${row?.deptExcelDiff &&
-                                        row?.deptExcelDiff !== "NA"
-                                        ? row?.deptExcelDiff === 0
-                                          ? "bg-[#78f3d1]"
-                                          : row?.deptExcelDiffPercent > 0 &&
-                                            row?.deptExcelDiffPercent < 3
-                                            ? "bg-[#f2e092]"
-                                            : row?.deptExcelDiffPercent < 0
+                                          ? `${row?.schemeDashDiffPercent}%`
+                                          : "NA"}
+                                      </td>
+                                    </>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {showDeptExcel ? (
+                                    <>
+                                      <td className="boxStyle ">
+                                        {row?.deptExcelValue
+                                          ? row?.deptExcelValue
+                                          : "NA"}
+                                      </td>
+                                      <td
+                                        className={`boxStyle ${
+                                          row?.deptExcelDiff &&
+                                          row?.deptExcelDiff !== "NA"
+                                            ? row?.deptExcelDiff === 0
+                                              ? "bg-[#78f3d1]"
+                                              : row?.deptExcelDiffPercent > 0 &&
+                                                row?.deptExcelDiffPercent < 3
+                                              ? "bg-[#f2e092]"
+                                              : row?.deptExcelDiffPercent < 0
                                               ? "bg-[#f37a78]"
                                               : "bg-[#FFC107]"
-                                        : ""
+                                            : ""
                                         }`}
-                                    >
-                                      {row?.deptExcelDiff ||
+                                      >
+                                        {row?.deptExcelDiff ||
                                         row?.deptExcelDiff == 0
-                                        ? row?.deptExcelDiff
-                                        : "NA"}
-                                    </td>
-                                    <td
-                                      className={`boxStyle ${row?.deptExcelDiff &&
-                                        row?.deptExcelDiff !== "NA"
-                                        ? row?.deptExcelDiff === 0
-                                          ? "bg-[#78f3d1]"
-                                          : row?.deptExcelDiffPercent > 0 &&
-                                            row?.deptExcelDiffPercent < 3
-                                            ? "bg-[#f2e092]"
-                                            : row?.deptExcelDiffPercent < 0
+                                          ? row?.deptExcelDiff
+                                          : "NA"}
+                                      </td>
+                                      <td
+                                        className={`boxStyle ${
+                                          row?.deptExcelDiff &&
+                                          row?.deptExcelDiff !== "NA"
+                                            ? row?.deptExcelDiff === 0
+                                              ? "bg-[#78f3d1]"
+                                              : row?.deptExcelDiffPercent > 0 &&
+                                                row?.deptExcelDiffPercent < 3
+                                              ? "bg-[#f2e092]"
+                                              : row?.deptExcelDiffPercent < 0
                                               ? "bg-[#f37a78]"
                                               : "bg-[#FFC107]"
-                                        : ""
+                                            : ""
                                         }`}
-                                    >
-                                      {row?.deptExcelDiff ||
+                                      >
+                                        {row?.deptExcelDiff ||
                                         row?.deptExcelDiff === 0
-                                        ? row?.deptExcelDiffPercent == "NA" ? row?.deptExcelDiffPercent : `${row?.deptExcelDiffPercent}%`
-                                        : "NA"}
-                                    </td>
-                                  </>
-                                ) : (
-                                  ""
-                                )}
-                                {showDeptAPI ? (
-                                  <>
-                                    <td className="border border-black px-4 py-2">
-                                      {row?.deptApiValue
-                                        ? row?.deptApiValue
-                                        : "NA"}
-                                    </td>
-                                    <td
-                                      className={`boxStyle ${row?.deptApiDiff &&
-                                        row?.deptApiDiff !== "NA"
-                                        ? row?.deptApiDiff === 0
-                                          ? "bg-[#78f3d1]"
-                                          : row?.deptApiDiff > 0 &&
-                                            row?.deptApiDiff < 3
-                                            ? "bg-[#f2e092]"
-                                            : row?.deptApiDiff < 0
+                                          ? row?.deptExcelDiffPercent == "NA"
+                                            ? row?.deptExcelDiffPercent
+                                            : `${row?.deptExcelDiffPercent}%`
+                                          : "NA"}
+                                      </td>
+                                    </>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {showDeptAPI ? (
+                                    <>
+                                      <td className="border border-black px-4 py-2">
+                                        {row?.deptApiValue
+                                          ? row?.deptApiValue
+                                          : "NA"}
+                                      </td>
+                                      <td
+                                        className={`boxStyle ${
+                                          row?.deptApiDiff &&
+                                          row?.deptApiDiff !== "NA"
+                                            ? row?.deptApiDiff === 0
+                                              ? "bg-[#78f3d1]"
+                                              : row?.deptApiDiff > 0 &&
+                                                row?.deptApiDiff < 3
+                                              ? "bg-[#f2e092]"
+                                              : row?.deptApiDiff < 0
                                               ? "bg-[#f37a78]"
                                               : "bg-[#FFC107]"
-                                        : ""
+                                            : ""
                                         }`}
-                                    >
-                                      {row?.deptApiDiff ||
+                                      >
+                                        {row?.deptApiDiff ||
                                         row?.deptApiDiff == 0
-                                        ? row?.deptApiDiff
-                                        : "NA"}
-                                    </td>
-                                    <td
-                                      className={`boxStyle ${row?.deptApiDiff &&
-                                        row?.deptApiDiff !== "NA"
-                                        ? row?.deptApiDiff === 0
-                                          ? "bg-[#78f3d1]"
-                                          : row?.deptApiDiff > 0 &&
-                                            row?.deptApiDiff < 3
-                                            ? "bg-[#f2e092]"
-                                            : row?.deptApiDiff < 0
+                                          ? row?.deptApiDiff
+                                          : "NA"}
+                                      </td>
+                                      <td
+                                        className={`boxStyle ${
+                                          row?.deptApiDiff &&
+                                          row?.deptApiDiff !== "NA"
+                                            ? row?.deptApiDiff === 0
+                                              ? "bg-[#78f3d1]"
+                                              : row?.deptApiDiff > 0 &&
+                                                row?.deptApiDiff < 3
+                                              ? "bg-[#f2e092]"
+                                              : row?.deptApiDiff < 0
                                               ? "bg-[#f37a78]"
                                               : "bg-[#FFC107]"
-                                        : ""
+                                            : ""
                                         }`}
-                                    >
-                                      {row?.deptApiDiff ||
+                                      >
+                                        {row?.deptApiDiff ||
                                         row?.deptApiDiff === 0
-                                        ? row?.deptApiDiffPercent
-                                        : "NA"}
-                                    </td>
-                                  </>
-                                ) : (
-                                  ""
-                                )}
-                              </React.Fragment>
-                            );
-                          })
+                                          ? row?.deptApiDiffPercent
+                                          : "NA"}
+                                      </td>
+                                    </>
+                                  ) : (
+                                    ""
+                                  )}
+                                </React.Fragment>
+                              );
+                            })
                           : null; // Return null if there are no rows in scheme
                       })}
                     </tr>

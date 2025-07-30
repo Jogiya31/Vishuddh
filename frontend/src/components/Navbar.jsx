@@ -15,7 +15,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 z-[20] left-0 w-full bg-white text-black py-1 px-6 flex items-center justify-between shadow-md">
+    <nav className=" w-full bg-white text-black py-1 px-6 flex items-center justify-between shadow-md">
       {/* Left Logo */}
       <div className="w-1/3 flex justify-start">
         <img src={LLogo} alt="Left Logo" className="h-12" />

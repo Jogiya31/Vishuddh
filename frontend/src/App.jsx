@@ -31,7 +31,6 @@ function AppContent() {
     <>
       <Router>
         <ToastContainer />
-        {loggedIn && <Navbar />}
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route
@@ -153,7 +152,6 @@ function AppContent() {
             }
           />
         </Routes>
-        {loggedIn && <Footer />}
       </Router>
     </>
   );

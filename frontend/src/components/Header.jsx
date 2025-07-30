@@ -2,7 +2,7 @@ import Navbar from "../components/menu";
 import VishuddhLogo from "../assets/logo3.png"
 function Header() {
   return (
-  <div className="fixed w-full  left-0 right-0 z-[20] text-left mt-[52px] ">
+  <div className="w-full  left-0 right-0 z-[20] text-left">
       <div className="h-[45px] bg-[#4059ad] text-white flex items-center justify-center rounded-lg shadow-lg">
       <div className="flex justify-between items-center w-full px-4">
         <h1 className="text-l w-1/4 font-semibold">

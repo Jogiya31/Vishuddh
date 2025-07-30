@@ -18,7 +18,6 @@ import { InfoIcon } from "lucide-react";
 import { useReportType } from "./ReportType.jsx";
 import Filter from "../components/Filter.jsx";
 
-
 const dedupe = (arr) => Array.from(new Set(arr));
 
 const OverallSummaryReport = () => {
@@ -55,19 +54,27 @@ const OverallSummaryReport = () => {
   const [displayMsg, setDisplayMsg] = useState("No Data Available");
 
   // Filter state
-const getInitial = (key, def) => {
-  try {
-    const item = localStorage.getItem(key);
-    return item ? JSON.parse(item) : def;
-  } catch {
-    return def;
-  }
-};
+  const getInitial = (key, def) => {
+    try {
+      const item = localStorage.getItem(key);
+      return item ? JSON.parse(item) : def;
+    } catch {
+      return def;
+    }
+  };
 
-const [selectedSectors, setSelectedSectors] = useState(() => getInitial("selectedSectors", []));
-const [selectedDepartments, setSelectedDepartments] = useState(() => getInitial("selectedDepartments", []));
-const [selectedSchemes, setSelectedSchemes] = useState(() => getInitial("selectedSchemes", []));
-const [selectedKPIs, setSelectedKPIs] = useState(() => getInitial("selectedKPIs", []));
+  const [selectedSectors, setSelectedSectors] = useState(() =>
+    getInitial("selectedSectors", [])
+  );
+  const [selectedDepartments, setSelectedDepartments] = useState(() =>
+    getInitial("selectedDepartments", [])
+  );
+  const [selectedSchemes, setSelectedSchemes] = useState(() =>
+    getInitial("selectedSchemes", [])
+  );
+  const [selectedKPIs, setSelectedKPIs] = useState(() =>
+    getInitial("selectedKPIs", [])
+  );
 
   // Queries
   const {
@@ -155,28 +162,32 @@ const [selectedKPIs, setSelectedKPIs] = useState(() => getInitial("selectedKPIs"
   );
 
   useEffect(() => {
-  if (uniqueSchemes.length > 0 ) {
-    // Filter selectedSchemes to those present in National
-    const filteredSchemes = selectedSchemes.filter(sch => uniqueSchemes.includes(sch));
-    if (filteredSchemes.length > 0) {
-      setSelectedSchemes(filteredSchemes);
-    } else {
-      setSelectedSchemes(uniqueSchemes); // fallback: select all
+    if (uniqueSchemes.length > 0) {
+      // Filter selectedSchemes to those present in National
+      const filteredSchemes = selectedSchemes.filter((sch) =>
+        uniqueSchemes.includes(sch)
+      );
+      if (filteredSchemes.length > 0) {
+        setSelectedSchemes(filteredSchemes);
+      } else {
+        setSelectedSchemes(uniqueSchemes); // fallback: select all
+      }
     }
-  }
-}, [uniqueSchemes]);
+  }, [uniqueSchemes]);
 
-useEffect(() => {
-  if (uniqueKPIs.length > 0) {
-    // Filter selectedKPIs to those present in National
-    const filteredKPIs = selectedKPIs.filter(kpi => uniqueKPIs.includes(kpi));
-    if (filteredKPIs.length > 0) {
-      setSelectedKPIs(filteredKPIs);
-    } else {
-      setSelectedKPIs(uniqueKPIs); // fallback: select all
+  useEffect(() => {
+    if (uniqueKPIs.length > 0) {
+      // Filter selectedKPIs to those present in National
+      const filteredKPIs = selectedKPIs.filter((kpi) =>
+        uniqueKPIs.includes(kpi)
+      );
+      if (filteredKPIs.length > 0) {
+        setSelectedKPIs(filteredKPIs);
+      } else {
+        setSelectedKPIs(uniqueKPIs); // fallback: select all
+      }
     }
-  }
-}, [uniqueKPIs]);
+  }, [uniqueKPIs]);
 
   // Default select all on data load for all filters
   useEffect(() => {
@@ -235,23 +246,21 @@ useEffect(() => {
   //   schemeDepartmentMapping,
   // ]);
 
-
-
   // Cascade: scheme -> kpi
-// useEffect(() => {
-//   const kpisFiltered = dedupe(
-//     selectedSchemes.flatMap((scheme) =>
-//       (mappingData[scheme] || [])
-//         .map((kpiObj) => kpiObj["KPI Name"])
-//         .filter(Boolean)
-//     )
-//   );
-//   setSelectedKPIs((prev) => {
-//     const filtered = prev.filter((k) => kpisFiltered.includes(k));
-//     return filtered.length > 0 ? filtered : kpisFiltered;
-//   });
-//   // eslint-disable-next-line
-// }, [selectedSchemes, mappingData]);
+  // useEffect(() => {
+  //   const kpisFiltered = dedupe(
+  //     selectedSchemes.flatMap((scheme) =>
+  //       (mappingData[scheme] || [])
+  //         .map((kpiObj) => kpiObj["KPI Name"])
+  //         .filter(Boolean)
+  //     )
+  //   );
+  //   setSelectedKPIs((prev) => {
+  //     const filtered = prev.filter((k) => kpisFiltered.includes(k));
+  //     return filtered.length > 0 ? filtered : kpisFiltered;
+  //   });
+  //   // eslint-disable-next-line
+  // }, [selectedSchemes, mappingData]);
 
   // ---- Filter State Persistence (localStorage) ----
   useEffect(() => {
@@ -526,7 +535,7 @@ useEffect(() => {
 
   // Toggle for filters
 
-  const toggleSector = (sector) => { 
+  const toggleSector = (sector) => {
     let updatedSectors;
     if (selectedSectors.includes(sector)) {
       updatedSectors = selectedSectors.filter((s) => s !== sector);
@@ -585,15 +594,15 @@ useEffect(() => {
     setSelectedSchemes(schemesToKeep);
     localStorage.setItem("selectedSchemes", JSON.stringify(schemesToKeep));
 
-      const updatedSectors = Array.from(
-        new Set(
-          schemesToKeep
-            .map((scheme) => schemeSectorMapping[scheme])
-            .filter(Boolean)
-        )
-      );
-      setSelectedSectors(updatedSectors);
-      localStorage.setItem("selectedSectors", JSON.stringify(updatedSectors));
+    const updatedSectors = Array.from(
+      new Set(
+        schemesToKeep
+          .map((scheme) => schemeSectorMapping[scheme])
+          .filter(Boolean)
+      )
+    );
+    setSelectedSectors(updatedSectors);
+    localStorage.setItem("selectedSectors", JSON.stringify(updatedSectors));
 
     const updatedKPIs = Array.from(
       new Set(
@@ -696,12 +705,9 @@ useEffect(() => {
 
   return (
     <>
-      <div className="flex justify-end gap-2 mb-1">
-        <Header />
-      </div>
-      <div className="py-2 mt-[42px] font-small">
+      <div className="font-small">
         {/* Report Options Row */}
-        <div className="flex flex-wrap w-full items-center mx-0 py-0 rounded-xl">
+        <div className="flex flex-wrap items-center mx-0 py-0 rounded-xl">
           <div className="flex justfy-start w-full py-1">
             {!loading && !error && (
               <Filter
@@ -738,19 +744,26 @@ useEffect(() => {
         </div>
 
         {/* Table */}
-        <div className="flex items-center justify-between w-full px- my-2 ">
-          <MultiSelectDropdown
-            selectedUnit={unit}
-            onUpdateUnit={onUpdateUnit}
-            onSelectingOptions={onSelectingOptions}
-            Description={"Prayas Match"}
-          />
-          <h2 className="font-bold text-lg text-center flex-1 text-gray-600">
-            National Level Report
-          </h2>
-          <Legends />
+        <div className="inline-flex  items-center my-2  w-[98%] ">
+          <div className="flex justify-start w-[30%]">
+            <MultiSelectDropdown
+              selectedUnit={unit}
+              onUpdateUnit={onUpdateUnit}
+              onSelectingOptions={onSelectingOptions}
+              Description={"Prayas Match"}
+            />
+          </div>
+          <div className="flex justify-center w-[40%]">
+            <h2 className="font-bold text-lg text-center flex-1 text-gray-600">
+              National Level Report
+            </h2>
+          </div>
+          <div className="flex justify-end w-[30%]">
+            <Legends />
+          </div>{" "}
         </div>
-        <div className="relative mt-0 bg-white border-gray-400 overflow-scroll ">
+
+        <div className="relative mt-0 bg-white border-gray-400 overflow-auto ">
           {loading ? (
             <Loader />
           ) : outputData && Object.keys(outputData).length > 0 ? (
@@ -1246,7 +1259,9 @@ useEffect(() => {
                                     >
                                       {row?.deptExcelDiff ||
                                       row?.deptExcelDiff === 0
-                                        ? row?.deptExcelDiffPercent == "NA" ? row?.deptExcelDiffPercent : `${row?.deptExcelDiffPercent}%`
+                                        ? row?.deptExcelDiffPercent == "NA"
+                                          ? row?.deptExcelDiffPercent
+                                          : `${row?.deptExcelDiffPercent}%`
                                         : "NA"}
                                     </td>
                                   </>
@@ -1317,18 +1332,20 @@ useEffect(() => {
           )}
         </div>
       </div>
-      <Download
-        tableData={outputData}
-        mappingData={mappingData}
-        schemeSectorMapping={schemeSectorMapping}
-        schemeDepartmentMapping={schemeDepartmentMapping}
-        showDepartmentView={showDepartmentView}
-        showScemeView={showScemeView}
-        showDeptExcel={showDeptExcel}
-        showDeptAPI={showDeptAPI}
-        selectedOptions={selectedOptions}
-        reportName={"National Summary Report"}
-      />
+      {!loading && (
+        <Download
+          tableData={outputData}
+          mappingData={mappingData}
+          schemeSectorMapping={schemeSectorMapping}
+          schemeDepartmentMapping={schemeDepartmentMapping}
+          showDepartmentView={showDepartmentView}
+          showScemeView={showScemeView}
+          showDeptExcel={showDeptExcel}
+          showDeptAPI={showDeptAPI}
+          selectedOptions={selectedOptions}
+          reportName={"National Summary Report"}
+        />
+      )}
     </>
   );
 };

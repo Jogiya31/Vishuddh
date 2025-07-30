@@ -62,13 +62,13 @@ const StateSummaryReport = () => {
   const [selectedKPIs, setSelectedKPIs] = useState(() =>
     getInitial("selectedKPIs", [])
   );
-const [selectedStates, setSelectedStates] = useState(() => {
-  const item = localStorage.getItem("selectedStates");
-  if (item && item.length > 0) {
-    return JSON.parse(item);
-  }
-  return stateArray; // all states selected by default
-});
+  const [selectedStates, setSelectedStates] = useState(() => {
+    const item = localStorage.getItem("selectedStates");
+    if (item && item.length > 0) {
+      return JSON.parse(item);
+    }
+    return stateArray; // all states selected by default
+  });
   // filteredStates is used for table order and download
   const [filteredStates, setFilteredStates] = useState(stateArray);
 
@@ -278,11 +278,11 @@ const [selectedStates, setSelectedStates] = useState(() => {
 
   // Filtering logic (parent controls)
   useEffect(() => {
-     if (
+    if (
       selectedSectors.length === 0 ||
       selectedDepartments.length === 0 ||
       selectedSchemes.length === 0 ||
-      selectedKPIs.length === 0  ||
+      selectedKPIs.length === 0 ||
       selectedStates.length === 0
     ) {
       setOutputData({});
@@ -366,57 +366,63 @@ const [selectedStates, setSelectedStates] = useState(() => {
   };
 
   // Sorting the data inside outputData (table data ordering)
-const sortData = (key, schemeKey, kpiKey) => {
-  // Defensive: deep copy to avoid mutating state
-  const sortedData = JSON.parse(JSON.stringify(outputData));
-  const states = outputData[schemeKey][kpiKey];
-  
-  // Sort state entries
-  const sortedStates = Object.entries(states)
-    .sort(([stateA, dataA], [stateB, dataB]) => {
-      // Extract/normalize values
-      const getValue = (data) => {
-        let val = data?.[key];
-        if (val === undefined || val === null || val === "" || val === "NA") return null;
-        // Try numeric
-        const numVal = Number(String(val).replace(/,/g, ""));
-        if (!isNaN(numVal)) return numVal;
-        return val;
-      };
-      const valueA = getValue(dataA);
-      const valueB = getValue(dataB);
+  const sortData = (key, schemeKey, kpiKey) => {
+    // Defensive: deep copy to avoid mutating state
+    const sortedData = JSON.parse(JSON.stringify(outputData));
+    const states = outputData[schemeKey][kpiKey];
 
-      // "NA"/null always sorts last
-      if (valueA === null && valueB !== null) return 1;
-      if (valueA !== null && valueB === null) return -1;
-      if (valueA === null && valueB === null) return 0;
+    // Sort state entries
+    const sortedStates = Object.entries(states)
+      .sort(([stateA, dataA], [stateB, dataB]) => {
+        // Extract/normalize values
+        const getValue = (data) => {
+          let val = data?.[key];
+          if (val === undefined || val === null || val === "" || val === "NA")
+            return null;
+          // Try numeric
+          const numVal = Number(String(val).replace(/,/g, ""));
+          if (!isNaN(numVal)) return numVal;
+          return val;
+        };
+        const valueA = getValue(dataA);
+        const valueB = getValue(dataB);
 
-      // Numeric sort if both numbers
-      if (typeof valueA === "number" && typeof valueB === "number") {
-        return dataAscending ? valueA - valueB : valueB - valueA;
-      }
-      // Fallback string sort
-      if (dataAscending) {
-        return String(valueA).localeCompare(String(valueB));
-      } else {
-        return String(valueB).localeCompare(String(valueA));
-      }
-    })
-    .reduce((acc, [state, data]) => {
-      acc[state] = data;
-      return acc;
-    }, {});
+        // "NA"/null always sorts last
+        if (valueA === null && valueB !== null) return 1;
+        if (valueA !== null && valueB === null) return -1;
+        if (valueA === null && valueB === null) return 0;
 
-  sortedData[schemeKey][kpiKey] = sortedStates;
+        // Numeric sort if both numbers
+        if (typeof valueA === "number" && typeof valueB === "number") {
+          return dataAscending ? valueA - valueB : valueB - valueA;
+        }
+        // Fallback string sort
+        if (dataAscending) {
+          return String(valueA).localeCompare(String(valueB));
+        } else {
+          return String(valueB).localeCompare(String(valueA));
+        }
+      })
+      .reduce((acc, [state, data]) => {
+        acc[state] = data;
+        return acc;
+      }, {});
 
-  // Update filteredStates order to match sorted states
-  const sortedStateNames = Object.keys(sortedStates);
-  const sortedFilterStates = stateArray.filter(s => sortedStateNames.includes(s.state_name))
-    .sort((a, b) => sortedStateNames.indexOf(a.state_name) - sortedStateNames.indexOf(b.state_name));
-  setFilteredStates(sortedFilterStates);
-  setOutputData(sortedData); // Optional: update outputData if you want to re-sort for future sorts
-  setDataAscending(!dataAscending);
-};
+    sortedData[schemeKey][kpiKey] = sortedStates;
+
+    // Update filteredStates order to match sorted states
+    const sortedStateNames = Object.keys(sortedStates);
+    const sortedFilterStates = stateArray
+      .filter((s) => sortedStateNames.includes(s.state_name))
+      .sort(
+        (a, b) =>
+          sortedStateNames.indexOf(a.state_name) -
+          sortedStateNames.indexOf(b.state_name)
+      );
+    setFilteredStates(sortedFilterStates);
+    setOutputData(sortedData); // Optional: update outputData if you want to re-sort for future sorts
+    setDataAscending(!dataAscending);
+  };
   // Unit Change Handler
   const onUpdateUnit = (unit) => {
     setUnit(unit);
@@ -440,7 +446,7 @@ const sortData = (key, schemeKey, kpiKey) => {
       setSelectedDepartments([]);
       setSelectedSchemes([]);
       setSelectedKPIs([]);
-      
+
       setFilteredStates([]);
 
       localStorage.setItem("selectedSectors", JSON.stringify([]));
@@ -525,7 +531,7 @@ const sortData = (key, schemeKey, kpiKey) => {
     }
   };
 
-    const handleSelectAllStates = () => {
+  const handleSelectAllStates = () => {
     if (selectedStates.length === stateArray.length) {
       setSelectedStates([]);
       localStorage.setItem("selectedStates", JSON.stringify([]));
@@ -706,7 +712,7 @@ const sortData = (key, schemeKey, kpiKey) => {
     localStorage.setItem("selectedSectors", JSON.stringify(updatedSectors));
   };
 
-   const toggleState = (stateObj) => {
+  const toggleState = (stateObj) => {
     let updatedStates;
     if (selectedStates.some((s) => s.state_id === stateObj.state_id)) {
       updatedStates = selectedStates.filter(
@@ -717,7 +723,6 @@ const sortData = (key, schemeKey, kpiKey) => {
     }
     setSelectedStates(updatedStates);
     localStorage.setItem("selectedStates", JSON.stringify(updatedStates));
-
 
     onUpdateState(updatedStates);
 
@@ -733,10 +738,7 @@ const sortData = (key, schemeKey, kpiKey) => {
 
   return (
     <>
-      <div className="flex justify-end gap-2  mb-1 ">
-        <Header />
-      </div>
-      <div className="py-1 mt-[100px] font-small ">
+      <div className="font-small ">
         {/* Report Options Row */}
         <div className="flex flex-wrap w-full items-center mx-0  py-0  rounded-xl">
           <div className="flex justfy-start  w-full  py-1">
@@ -779,22 +781,25 @@ const sortData = (key, schemeKey, kpiKey) => {
         </div>
 
         {/* Table */}
-        <div className="flex items-center justify-between w-full px-1 my-2">
-          <MultiSelectDropdown
-            onUpdateUnit={onUpdateUnit}
-            onSelectingOptions={onSelectingOptions}
-            Description={"Prayas Match"}
-            selectedUnit={unit}
-          />
-          <h2 className="font-bold text-lg text-center flex-1 text-gray-600">
-            State Level Report
-          </h2>
-          <Legends />
+        <div className="inline-flex  items-center my-2  w-[98%] ">
+          <div className="flex justify-start w-[30%]">
+            <MultiSelectDropdown
+              onUpdateUnit={onUpdateUnit}
+              onSelectingOptions={onSelectingOptions}
+              Description={"Prayas Match"}
+              selectedUnit={unit}
+            />
+          </div>
+          <div className="flex justify-center w-[40%]">
+            <h2 className="font-bold text-lg text-center flex-1 text-gray-600">
+              State Level Report
+            </h2>
+          </div>
+          <div className="flex justify-end w-[30%]">
+            <Legends />
+          </div>
         </div>
-        <div
-          className="relative mt-0 bg-white border-gray-400 overflow-auto min-h-[220px]
-  max-h-[55vh]"
-        >
+        <div className="relative mt-0 bg-white border-gray-400 overflow-auto  min-h-[220px]  max-h-[64vh]">
           {loading ? (
             <Loader />
           ) : outputData && Object.keys(outputData).length > 0 ? (
@@ -1679,7 +1684,9 @@ const sortData = (key, schemeKey, kpiKey) => {
                                       >
                                         {row?.deptExcelDiff ||
                                         row?.deptExcelDiff === 0
-                                          ? row?.deptExcelDiffPercent == "NA" ? row?.deptExcelDiffPercent : `${row?.deptExcelDiffPercent}%`
+                                          ? row?.deptExcelDiffPercent == "NA"
+                                            ? row?.deptExcelDiffPercent
+                                            : `${row?.deptExcelDiffPercent}%`
                                           : "NA"}
                                       </td>
                                     </>
@@ -1752,21 +1759,23 @@ const sortData = (key, schemeKey, kpiKey) => {
           )}
         </div>
       </div>
-      <Download
-        tableData={outputData}
-        mappingData={mappingData}
-        schemeDepartmentMapping={schemeDepartmentMapping}
-        schemeSectorMapping={schemeSectorMapping}
-        states={filteredStates}
-        state={true}
-        district={false}
-        stateName={stateName}
-        showDepartmentView={showDepartmentView}
-        showScemeView={showScemeView}
-        showDeptExcel={showDeptExcel}
-        showDeptAPI={showDeptAPI}
-        reportName={"State Summary Report"}
-      />
+      {!loading && (
+        <Download
+          tableData={outputData}
+          mappingData={mappingData}
+          schemeDepartmentMapping={schemeDepartmentMapping}
+          schemeSectorMapping={schemeSectorMapping}
+          states={filteredStates}
+          state={true}
+          district={false}
+          stateName={stateName}
+          showDepartmentView={showDepartmentView}
+          showScemeView={showScemeView}
+          showDeptExcel={showDeptExcel}
+          showDeptAPI={showDeptAPI}
+          reportName={"State Summary Report"}
+        />
+      )}
     </>
   );
 };
