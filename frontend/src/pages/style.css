@@ -1,0 +1,77 @@
+table {
+  border-collapse: separate; /* Fixes border disappearing */
+  border-spacing: 0; /* Removes extra space */
+  width: 100%;
+  height: 100%;
+}
+
+/* Sticky header at the top */
+#stateTable thead {
+  position: sticky;
+  top: 0;
+
+  z-index: 9;
+}
+
+/* Ensure all rows inside thead have the same behavior */
+#stateTable thead tr {
+  position: relative;
+}
+
+/* Ensure horizontal scrolling works */
+#stateTable .table-container {
+  overflow-x: auto;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+/* Sticky first column */
+#stateTable thead tr:nth-child(2) th:first-child,
+#stateTable tbody td:first-child {
+  position: sticky;
+  left: 0;
+  background: #e3eefb;
+  z-index: 8;
+}
+
+/* Sticky second column */
+#stateTable thead tr:nth-child(2) th:nth-child(2),
+#stateTable tbody td:nth-child(2) {
+  position: sticky;
+  left: 200px;
+  background: #e3eefb;
+  z-index: 8;
+}
+
+#stateTable tbody td:first-child,
+#stateTable thead th:first-child {
+  width: 200px;
+  min-width: 200px;
+  max-width: 200px;
+  text-align: center !important;
+
+}
+/* Table cell borders */
+#stateTable th,
+td {
+  border: 1px solid rgb(228, 228, 230) !important;
+  padding: 2px;
+  text-align: center !important;
+}
+
+.boxStyle {
+  height: 25px !important;
+  max-height: 25px !important;
+  line-height: 1 !important;
+  padding: 0 8px !important; /* 0 top/bottom, 8px left/right */
+  border: 1px solid #cbd5e0;
+  vertical-align: middle !important;
+ text-align: center;
+}
+#stateTable tbody td:nth-child(4),
+#stateTable thead th:nth-child(4) {
+  width: 124px;
+  min-width: 124px;
+  max-width: 124px;
+
+}

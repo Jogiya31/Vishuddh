@@ -1,0 +1,83 @@
+table {
+    border-collapse: separate; /* Fixes border disappearing */
+    border-spacing: 0; /* Removes extra space */
+    width: 100%;
+    height:100%;
+  }
+  
+
+   /* Sticky header at the top */
+   #stateTable thead {
+    position: sticky;
+    top: 0;
+
+    z-index: 9;
+  
+  }
+
+
+  /* Ensure all rows inside thead have the same behavior */
+  #stateTable thead tr {
+    position: relative;
+  }
+  
+/* Ensure horizontal scrolling works */
+#stateTable .table-container {
+    overflow-x: auto;
+    max-width: 100%;
+    white-space: nowrap;
+  }
+  
+  /* Sticky first column */
+  #stateTable thead tr:nth-child(2) th:first-child,
+  #stateTable tbody td:first-child {
+    position: sticky;
+    left: 0;
+    background: #e3eefb;
+    z-index: 8;
+    padding: 2px !important;
+  }
+  
+  /* Sticky second column */
+  #stateTable thead tr:nth-child(2) th:nth-child(2),
+  #stateTable tbody td:nth-child(2) {
+    position: sticky;
+    left: 150px;
+    background: #e3eefb;
+    z-index: 8;
+    padding: 2px !important;
+  }
+  
+ 
+  
+  /* Table cell borders */
+  #stateTable  th, td {
+    border: 1px solid rgb(228, 228, 230) !important;
+    padding: 2px !important;
+    text-align: center;
+  }
+  #stateTable  tr, td {
+    border: 1px solid rgb(228, 228, 230) !important;
+    padding: 2px !important;
+    text-align: center;
+    font-size: 10px;
+  }
+  
+  #stateTable th:nth-child(4),
+  #stateTable td:nth-child(4) {
+    width: 150px;        /* or whatever fixed width you prefer */
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #stateTable th:nth-child(1),
+  #stateTable td:nth-child(1) {
+    width: 150px;        /* or whatever fixed width you prefer */
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+  }

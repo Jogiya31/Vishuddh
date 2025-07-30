@@ -1,0 +1,100 @@
+#districtTable table {
+  border-collapse: separate; /* Fixes border disappearing */
+  border-spacing: 0; /* Removes extra space */
+  width: 100%;
+}
+
+/* Sticky header at the top */
+#districtTable thead {
+  position: sticky;
+  top: 0;
+  z-index: 9;
+}
+#districtTable table th,
+#districtTable table td {
+  height: 20px !important; /* Set your desired standard height */
+  vertical-align: middle; /* Optional: aligns content vertically */
+}
+/* Ensure all rows inside thead have the same behavior */
+#districtTable thead tr {
+  position: relative;
+}
+
+/* Ensure horizontal scrolling works */
+#districtTable .table-container {
+  overflow-x: auto;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+/* Sticky first column */
+#districtTable thead tr:nth-child(2) th:first-child,
+#districtTable tbody td:first-child {
+  position: sticky;
+  left: 0;
+  background: #e3eefb;
+  z-index: 8;
+}
+
+/* Sticky second column */
+#districtTable thead tr:nth-child(2) th:nth-child(2),
+#districtTable tbody td:nth-child(2) {
+  position: sticky;
+  left: 200px;
+  background: #e3eefb;
+  z-index: 8;
+}
+/* Sticky second column */
+#districtTable thead tr:nth-child(2) th:nth-child(3),
+#districtTable tbody td:nth-child(3) {
+  position: sticky;
+  left: 262px; /* Adjust based on the first column width */
+  background: #e3eefb;
+  z-index: 8;
+}
+#districtTable tbody td:first-child,
+#districtTable thead th:first-child {
+  width: 200px;
+  min-width: 200px;
+  max-width: 200px;
+}
+#districtTable tbody td:nth-child(3),
+#districtTable thead th:nth-child(3) {
+  width: 170px;
+  min-width: 170px;
+  max-width: 170px;
+}
+#districtTable tbody td:nth-child(6),
+#districtTable thead th:nth-child(6) {
+  width: 124px;
+  min-width: 124px;
+  max-width: 124px;
+
+}
+.boxStyle {
+  height: 25px !important;
+  max-height: 25px !important;
+  line-height: 1 !important;
+  padding: 0 8px !important; /* 0 top/bottom, 8px left/right */
+  border: 1px solid #cbd5e0;
+  vertical-align: middle !important;
+ 
+}
+
+
+/* Sticky second column */
+#districtTable thead tr:nth-child(2) th:nth-child(4),
+#districtTable tbody td:nth-child(4) {
+  position: sticky;
+  left: 432px; /* Adjust based on the first column width */
+  background: #e3eefb;
+  z-index: 8;
+}
+
+/* Table cell borders */
+#districtTable th,
+td {
+  border: 1px solid rgb(228, 228, 230) !important;
+
+  text-align: center;
+}

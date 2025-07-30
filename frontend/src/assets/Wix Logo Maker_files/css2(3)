@@ -1,0 +1,7 @@
+@font-face {
+  font-family: 'Cormorant SC';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(https://static.parastorage.com/tag-bundler/api/v1/fonts-cache/googlefont/woff2/l/font?kit=0yb5GD4kxqXBmOVLG30OGwseqTo29TfE_2DvfC71a8Q&skey=82bbbf476a8d515d&v=v18) format('woff2');
+}

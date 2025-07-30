@@ -1,0 +1,496 @@
+{
+  "No. of Property Cards Distributed": {
+    "SVAMITVA": {
+      "view1": [
+        "\u2022 5 states where Critical Value is not available",
+        "\u2022 Bihar, Chandigarh, Meghalaya, Nagaland, West Bengal"
+      ],
+      "view2": [
+        "\u2022 5 states where Department Value is not available",
+        "\u2022 Bihar, Chandigarh, Meghalaya, Nagaland, West Bengal"
+      ],
+      "view3": "No Insights",
+      "view4": [
+        "\u2022 For Month Frequency",
+        "\u2022 States with exactly one month gap: 0",
+        "\u2022 States with significant remarks and have one month gap: None",
+        "\u2022 States with more than one month gap: 8",
+        "\u2022 States with significant remarks mismatch and have more than one month gap: Uttarakhand, Uttar Pradesh, Chhattisgarh, Maharashtra, Andhra Pradesh"
+      ],
+      "view5": [
+        "\u2022 The top states with the largest absolute difference in values are: Maharashtra (2019546.0), Andhra Pradesh (305051.0), Chhattisgarh (4053.0).",
+        "\u2022 A total of 5 states show significant differences in value: Maharashtra (2019546.0), Andhra Pradesh (305051.0), Chhattisgarh (4053.0), Uttarakhand (147.0), Uttar Pradesh (136.0)",
+        "\u2022 Value differences ranged from a minimum of Ladakh (7.0) to a maximum of Maharashtra (2019546.0), with an average absolute difference of 291126.75."
+      ],
+      "view6": [
+        "\u2022 The states where Prayas value is higher than Department value are: (Andhra Pradesh, Uttar Pradesh, Uttarakhand)",
+        "\u2022 The top 3 states with the largest difference (Prayas - Department) are: (Andhra Pradesh (305051), Uttarakhand (147), Uttar Pradesh (136))",
+        "\u2022 The states with Significant Difference (Prayas > Department) are: (Andhra Pradesh, Uttar Pradesh, Uttarakhand)"
+      ],
+      "view7": [
+        "\u2022 The number of states where Department API value is higher than Prayas value is 5, and the states are (Chhattisgarh, Gujarat, Ladakh, Maharashtra, Rajasthan).",
+        "\u2022 Top 3 states with the largest difference (Department - Prayas) are (Maharashtra (2019546), Chhattisgarh (4053), Rajasthan (61)).",
+        "\u2022 States with Significant Difference (Department > Prayas) are (Chhattisgarh, Maharashtra)."
+      ]
+    }
+  },
+  "No. of Beneficiaries": {
+    "PM Garib Kalyan Anna Yojana": {
+      "view1": "No Insights",
+      "view2": "No Insights",
+      "view3": "No Insights",
+      "view4": [
+        "* For Month Frequency",
+        "* States with exactly one month gap: 0",
+        "* States with significant remarks and have one month gap: None",
+        "* States with more than one month gap: 26",
+        "* States with significant remarks mismatch and have more than one month gap: 22 (Himachal Pradesh, Punjab, Chandigarh, Uttarakhand, Rajasthan, Uttar Pradesh, Bihar, Tripura, West Bengal, Jharkhand, Odisha, Chhattisgarh, Madhya Pradesh, Gujarat, Maharashtra, Karnataka, Goa, Kerala, Tamil Nadu, Andaman And Nicobar Islands, Telangana, The Dadra And Nagar Haveli And Daman And Diu)"
+      ],
+      "view5": [
+        "\u2022 The top states with the largest absolute differences in values are: West Bengal (933619.0), Madhya Pradesh (594622.0), and Rajasthan (545751.0).",
+        "\u2022 A total of 22 states show significant value differences: West Bengal (933619.0), Madhya Pradesh (594622.0), Rajasthan (545751.0), Bihar (260814.0), Uttar Pradesh (230070.0), Telangana (190838.0), Tamil Nadu (98089.0), Chhattisgarh (56405.0), Kerala (46048.0), Maharashtra (38813.0), Jharkhand (35365.0), Punjab (14065.0), Odisha (11224.0), Gujarat (8947.0), Himachal Pradesh (4940.0), Tripura (2772.0), Uttarakhand (1831.0), Karnataka (1692.0), The Dadra And Nagar Haveli And Daman And Diu (518.0), Andaman And Nicobar Islands (456.0), Goa (198.0), Chandigarh (184.0).",
+        "\u2022 Value differences ranged from a minimum of 23.0 in Assam to a maximum of 933619.0 in West Bengal, with an average absolute difference of 118361.31."
+      ],
+      "view6": [
+        "* There are 14 states where the Prayas value is higher than the Department value: (Gujarat, Jharkhand, Kerala, Madhya Pradesh, Maharashtra, Odisha, Punjab, Tamil Nadu, Telangana, The Dadra And Nagar Haveli And Daman And Diu, Tripura, Uttar Pradesh, Uttarakhand, West Bengal)",
+        "* The top 3 states with the largest difference (Prayas - Department) are: (West Bengal (933619), Madhya Pradesh (594622), Uttar Pradesh (230070))",
+        "* States with Significant Difference where Prayas is greater than Department are: (Gujarat, Jharkhand, Kerala, Madhya Pradesh, Maharashtra, Odisha, Punjab, Tamil Nadu, Telangana, The Dadra And Nagar Haveli And Daman And Diu, Tripura, Uttar Pradesh, Uttarakhand, West Bengal)"
+      ],
+      "view7": [
+        "\u2022 The difference in Department and Prayas values is significant across 12 states: (Andaman And Nicobar Islands, Assam, Bihar, Chandigarh, Chhattisgarh, Delhi, Goa, Himachal Pradesh, Karnataka, Manipur, Puducherry, Rajasthan)",
+        "\u2022 The top 3 states with the largest difference are: (Rajasthan (545751), Bihar (260814), Chhattisgarh (56405))",
+        "\u2022 States where the Department value is higher than Prayas and have a \"Significant Difference\" remark are: (Andaman And Nicobar Islands, Bihar, Chandigarh, Chhattisgarh, Goa, Himachal Pradesh, Karnataka, Rajasthan)"
+      ]
+    }
+  },
+  "No. of Houses Sanctioned - Urban": {
+    "PM Awaas Yojana - Urban": {
+      "view1": "No Insights",
+      "view2": "No Insights",
+      "view3": "No Insights",
+      "view4": [
+        "\u2022 For Day Frequency",
+        "\u2022 States with exactly one day gap: 0",
+        "\u2022 States with significant remarks and have one day gap: None",
+        "\u2022 States with more than one day gap: 14",
+        "\u2022 States with significant remarks mismatch and have more than one day gap: Jammu And Kashmir, Punjab, Haryana, Rajasthan, Uttar Pradesh, Bihar, Arunachal Pradesh, Jharkhand, Odisha, Chhattisgarh, Gujarat, Andhra Pradesh, Puducherry, Telangana"
+      ],
+      "view5": [
+        "\u2022 Top states with the largest absolute difference in values are: Uttar Pradesh (124618.0), Telangana (113681.0), Bihar (100124.0).",
+        "\u2022 A total of 14 states show significant differences in value: Uttar Pradesh (124618.0), Telangana (113681.0), Bihar (100124.0), Andhra Pradesh (40410.0), Rajasthan (23882.0), Haryana (15256.0), Jharkhand (14265.0), Gujarat (13138.0), Punjab (12280.0), Odisha (5328.0), Arunachal Pradesh (5311.0), Chhattisgarh (5103.0), Jammu And Kashmir (1272.0), Puducherry (447.0).",
+        "\u2022 Value differences ranged from a minimum of 447.0 to a maximum of 124618.0, with an average absolute difference of 33936.79."
+      ],
+      "view6": "No Insights",
+      "view7": [
+        "\u2022 The data indicates that 14 states in India have a higher scrapped value than the critical API value: (Andhra Pradesh, Arunachal Pradesh, Bihar, Chhattisgarh, Gujarat, Haryana, Jammu And Kashmir, Jharkhand, Odisha, Puducherry, Punjab, Rajasthan, Telangana, Uttar Pradesh).",
+        "\u2022 The top 3 states with the largest difference between the scrapped value and the critical API value are: (Uttar Pradesh (124618), Telangana (113681), Bihar (100124)).",
+        "\u2022 Out of these 14 states, 13 have a \"Significant Difference\" in remarks and the scrapped value is greater than the critical value: (Andhra Pradesh, Arunachal Pradesh, Bihar, Chhattisgarh, Gujarat, Haryana, Jammu And Kashmir, Jharkhand, Odisha, Puducherry, Punjab, Rajasthan, Telangana, Uttar Pradesh)."
+      ]
+    }
+  },
+  "Sales of LED Bulbs (Government)": {
+    "UJALA": {
+      "view1": "No Insights",
+      "view2": "No Insights",
+      "view3": "No Insights",
+      "view4": [
+        "\u2022 For Quarter Frequency",
+        "\u2022 States with exactly one quarter gap: 27",
+        "\u2022 States with significant remarks and have one quarter gap: Delhi, Uttar Pradesh, Bihar, Assam, Ladakh, The Dadra And Nagar Haveli And Daman And Diu",
+        "\u2022 States with more than one quarter gap: 0",
+        "\u2022 States with significant remarks mismatch and have more than one quarter gap: 0 (None)"
+      ],
+      "view5": [
+        "\u2022 The top states with the largest absolute differences in KPI values are: Uttar Pradesh (545065.0), The Dadra And Nagar Haveli And Daman And Diu (213099.0), Ladakh (209353.0).",
+        "\u2022 A total of 6 states show significant differences in value, including: Uttar Pradesh (545065.0), The Dadra And Nagar Haveli And Daman And Diu (213099.0), Ladakh (209353.0), Delhi (150709.0), Assam (7086.0), Bihar (4688.0).",
+        "\u2022 Value differences ranged from a minimum of Mizoram (1.0) to a maximum of Uttar Pradesh (545065.0), with an average absolute difference of 41855.7."
+      ],
+      "view6": [
+        "* There are 9 states where the Prayas value is higher than the Department value: (Andhra Pradesh, Chhattisgarh, Goa, Jammu And Kashmir, Madhya Pradesh, Tamil Nadu, Telangana, Tripura, West Bengal)",
+        "* The top 3 states with the largest difference (Prayas - Department) are: (Chhattisgarh (31), Tamil Nadu (9), West Bengal (5))",
+        "* There are no states with Significant Difference where Prayas value is greater than the Department value: (None)"
+      ],
+      "view7": [
+        "\u2022 There are 18 states where Department API value is higher than Prayas value: (Assam, Bihar, Delhi, Gujarat, Haryana, Himachal Pradesh, Jharkhand, Karnataka, Ladakh, Maharashtra, Meghalaya, Mizoram, Odisha, Puducherry, Punjab, Rajasthan, The Dadra And Nagar Haveli And Daman And Diu, Uttar Pradesh)",
+        "\u2022 Top 3 states with the largest difference (Department - Prayas): (Uttar Pradesh (545065), The Dadra And Nagar Haveli And Daman And Diu (213099), Ladakh (209353))",
+        "\u2022 States with Significant Difference (Department > Prayas): (Assam, Bihar, Delhi, Ladakh, The Dadra And Nagar Haveli And Daman And Diu, Uttar Pradesh)"
+      ]
+    }
+  },
+  "No. of HHs Mobilised into SHGs": {
+    "National Rural Livelihood Mission": {
+      "view1": [
+        "* 2 states where Critical Value is not available",
+        "* Chandigarh, Delhi"
+      ],
+      "view2": [
+        "* 2 states where Department Value is not available",
+        "* States which have missing Department data: Chandigarh, Delhi"
+      ],
+      "view3": "No Insights",
+      "view4": [
+        "\u2022 For Month Frequency",
+        "\u2022 States with exactly one month gap: 0",
+        "\u2022 States with significant remarks and have one month gap: None",
+        "\u2022 States with more than one month gap: 34",
+        "\u2022 States with significant remarks mismatch and have more than one month gap: 32 (Jammu And Kashmir, Himachal Pradesh, Punjab, Uttarakhand, Haryana, Rajasthan, Uttar Pradesh, Bihar, Sikkim, Arunachal Pradesh, Nagaland, Manipur, Mizoram, Tripura, Meghalaya, Assam, West Bengal, Jharkhand, Odisha, Chhattisgarh, Madhya Pradesh, Gujarat, Maharashtra, Andhra Pradesh, Karnataka, Goa, Kerala, Tamil Nadu, Puducherry, Telangana, Ladakh, The Dadra And Nagar Haveli And Daman And Diu)"
+      ],
+      "view5": [
+        "\u2022 The top states with significant absolute differences in values are West Bengal (4294577.0), Andhra Pradesh (859570.0), and Maharashtra (374694.0).",
+        "\u2022 32 out of the total states exhibit significant value differences, including West Bengal (4294577.0), Andhra Pradesh (859570.0), Maharashtra (374694.0), Chhattisgarh (174752.0), Tamil Nadu (142205.0), and others.",
+        "\u2022 The range of absolute value differences spans from a minimum of 27.0 in Lakshadweep to a maximum of 4294577.0 in West Bengal, with an average difference of 182144.12."
+      ],
+      "view6": "No Insights",
+      "view7": [
+        "* 34 states where Department API value is higher than Prayas value: (Andaman And Nicobar Islands, Andhra Pradesh, Arunachal Pradesh, Assam, Bihar, Chhattisgarh, Goa, Gujarat, Haryana, Himachal Pradesh, Jammu And Kashmir, Jharkhand, Karnataka, Kerala, Ladakh, Lakshadweep, Madhya Pradesh, Maharashtra, Manipur, Meghalaya, Mizoram, Nagaland, Odisha, Puducherry, Punjab, Rajasthan, Sikkim, Tamil Nadu, Telangana, The Dadra And Nagar Haveli And Daman And Diu, Tripura, Uttar Pradesh, Uttarakhand, West Bengal)",
+        "* Top 3 states with the largest difference (Department - Prayas): (West Bengal (4294577), Andhra Pradesh (859570), Maharashtra (374694))",
+        "* States with Significant Difference (Department > Prayas): (Andhra Pradesh, Arunachal Pradesh, Assam, Bihar, Chhattisgarh, Goa, Gujarat, Haryana, Himachal Pradesh, Jammu And Kashmir, Jharkhand, Karnataka, Kerala, Ladakh, Madhya Pradesh, Maharashtra, Manipur, Meghalaya, Mizoram, Nagaland, Odisha, Puducherry, Punjab, Rajasthan, Sikkim, Tamil Nadu, Telangana, The Dadra And Nagar Haveli And Daman And Diu, Tripura, Uttar Pradesh, Uttarakhand, West Bengal)"
+      ]
+    }
+  },
+  "No. of Villages with 100% Household tap connection": {
+    "Jal Jeevan Mission": {
+      "view1": [
+        "\u2022 2 states where Critical Value is not available",
+        "\u2022 States which have missing Critical data: Chandigarh, Delhi"
+      ],
+      "view2": [
+        "* 2 states where Department Value is not available",
+        "* States which have missing Department data: Chandigarh, Delhi"
+      ],
+      "view3": "No Insights",
+      "view4": [
+        "\u2022 For Day Frequency",
+        "\u2022 States with exactly one day gap: 0",
+        "\u2022 States with significant remarks and have one day gap: None",
+        "\u2022 States with more than one day gap: 10",
+        "\u2022 States with significant remarks mismatch and have more than one day gap: Rajasthan"
+      ],
+      "view5": [
+        "* The top states with the largest absolute difference in values are: Rajasthan (2533.0), Madhya Pradesh (18.0), Odisha (11.0).",
+        "* A total of 1 state shows significant differences in value: Rajasthan (2533.0).",
+        "* Value differences ranged from a minimum of Jammu And Kashmir (2.0) to a maximum of Rajasthan (2533.0), with an average absolute difference of 258.6."
+      ],
+      "view6": "No Insights",
+      "view7": [
+        "\u2022 There are 10 states where the Department API value is higher than Prayas value: (Chhattisgarh, Jammu And Kashmir, Karnataka, Lakshadweep, Madhya Pradesh, Meghalaya, Odisha, Rajasthan, Tamil Nadu, Uttar Pradesh)",
+        "\u2022 Top 3 states with the largest difference (Department - Prayas): (Rajasthan (2533), Madhya Pradesh (18), Odisha (11))",
+        "\u2022 States with Significant Difference (Department > Prayas): (Rajasthan)"
+      ]
+    }
+  },
+  "No. of Habitations Connected 2014-23": {
+    "PM Gram Sadak Yojana": {
+      "view1": "No Insights",
+      "view2": [
+        "* 1 states where Department Value is not available",
+        "* The Dadra And Nagar Haveli And Daman And Diu,"
+      ],
+      "view3": "No Insights",
+      "view4": [
+        "* For Month Frequency",
+        "* States with exactly one month gap: 0",
+        "* States with significant remarks and have one month gap: None",
+        "* States with more than one month gap: 29",
+        "* States with significant remarks mismatch and have more than one month gap: 17 (Jammu And Kashmir, Himachal Pradesh, Punjab, Uttarakhand, Rajasthan, Uttar Pradesh, Bihar, Meghalaya, Assam, West Bengal, Jharkhand, Odisha, Chhattisgarh, Madhya Pradesh, Gujarat, Maharashtra, Andhra Pradesh, Karnataka)"
+      ],
+      "view5": [
+        "* The top states with the largest absolute differences in values are:",
+        "\u2022 Uttar Pradesh (2436.0)",
+        "\u2022 Rajasthan (2030.0)",
+        "\u2022 Bihar (1722.0)",
+        "* A total of 18 states show significant differences in value:",
+        "\u2022 Uttar Pradesh (2436.0)",
+        "\u2022 Rajasthan (2030.0)",
+        "\u2022 Bihar (1722.0)",
+        "\u2022 Madhya Pradesh (1574.0)",
+        "\u2022 Assam (1429.0)",
+        "\u2022 Uttarakhand (790.0)",
+        "\u2022 Himachal Pradesh (669.0)",
+        "\u2022 Odisha (628.0)",
+        "\u2022 West Bengal (481.0)",
+        "\u2022 Chhattisgarh (471.0)",
+        "\u2022 Maharashtra (407.0)",
+        "\u2022 Gujarat (319.0)",
+        "\u2022 Jammu And Kashmir (185.0)",
+        "\u2022 Andhra Pradesh (159.0)",
+        "\u2022 Punjab (146.0)",
+        "\u2022 Meghalaya (129.0)",
+        "\u2022 Karnataka (127.0)",
+        "\u2022 Jharkhand (121.0)",
+        "* Value differences ranged from a minimum of Goa (1.0) to a maximum of Uttar Pradesh (2436.0), with an average absolute difference of 482.83"
+      ],
+      "view6": [
+        "* The top 3 states with the largest Prayas value difference compared to Department value are Odisha (628), Chhattisgarh (471), and Goa (1).",
+        "* There are three states where Prayas value is higher than Department value: (Chhattisgarh, Goa, Odisha)",
+        "* States with Significant Difference where Prayas is greater than Department are (Chhattisgarh, Odisha)"
+      ],
+      "view7": [
+        "\u2022 26 states where Department API value is higher than Prayas value: (Andhra Pradesh, Arunachal Pradesh, Assam, Bihar, Gujarat, Himachal Pradesh, Jammu And Kashmir, Jharkhand, Karnataka, Kerala, Ladakh, Madhya Pradesh, Maharashtra, Manipur, Meghalaya, Mizoram, Nagaland, Punjab, Rajasthan, Sikkim, Tamil Nadu, Telangana, Tripura, Uttar Pradesh, Uttarakhand, West Bengal)",
+        "\u2022 Top 3 states with the largest difference (Department - Prayas): (Uttar Pradesh (2436), Rajasthan (2030), Bihar (1722))",
+        "\u2022 States with Significant Difference (Department > Prayas): (Andhra Pradesh, Assam, Bihar, Gujarat, Himachal Pradesh, Jammu And Kashmir, Jharkhand, Karnataka, Madhya Pradesh, Maharashtra, Meghalaya, Punjab, Rajasthan, Uttar Pradesh, Uttarakhand, West Bengal)"
+      ]
+    }
+  },
+  "Expenditure": {
+    "MGNREGA": {
+      "view1": [
+        "\u2022 2 states where Critical Value is not available",
+        "\u2022 States which have missing Critical data: Chandigarh, Delhi"
+      ],
+      "view2": [
+        "\u2022 2 states where Department Value is not available",
+        "\u2022 States which have missing Department data: Chandigarh, Delhi"
+      ],
+      "view3": "No Insights",
+      "view4": [
+        "\u2022 For Month Frequency",
+        "\u2022 States with exactly one month gap: 0",
+        "\u2022 States with significant remarks and have one month gap: None",
+        "\u2022 States with more than one month gap: 33",
+        "\u2022 States with significant remarks mismatch and have more than one month gap: Jammu And Kashmir, Himachal Pradesh, Punjab, Uttarakhand, Haryana, Rajasthan, Uttar Pradesh, Bihar, Sikkim, Arunachal Pradesh, Nagaland, Manipur, Mizoram, Tripura, Meghalaya, Assam, West Bengal, Jharkhand, Odisha, Chhattisgarh, Madhya Pradesh, Gujarat, Maharashtra, Andhra Pradesh, Karnataka, Goa, Kerala, Tamil Nadu, Puducherry, Andaman And Nicobar Islands, Telangana, Ladakh, The Dadra And Nagar Haveli And Daman And Diu"
+      ],
+      "view5": [
+        "* The top states with the largest absolute differences in values are Andhra Pradesh (1909650607.18), Madhya Pradesh (1423830901.4), and Uttar Pradesh (1157459798.11).",
+        "* A total of 33 states show significant differences in value, indicating widespread variations across Indian states.",
+        "* Value differences ranged from a minimum of The Dadra And Nagar Haveli And Daman And Diu (209.12) to a maximum of Andhra Pradesh (1909650607.18), with an average absolute difference of 291652706.39."
+      ],
+      "view6": [
+        "\u2022 Two states where Prayas value is higher than Department value: (Andaman And Nicobar Islands, The Dadra And Nagar Haveli And Daman And Diu)",
+        "\u2022 Top 3 states with the largest difference (Prayas - Department): (Andaman And Nicobar Islands (8810), The Dadra And Nagar Haveli And Daman And Diu (209))",
+        "\u2022 States with Significant Difference (Prayas > Department): (Andaman And Nicobar Islands, The Dadra And Nagar Haveli And Daman And Diu)"
+      ],
+      "view7": [
+        "* The data reveals that there are 31 states in India where the Department API value is higher than the Prayas value.",
+        "* Andhra Pradesh has the largest difference with a value of 1909650607, followed by Madhya Pradesh with a value of 1423830901 and Uttar Pradesh with a value of 1157459798.",
+        "* There are 28 states where the scrapped value is greater than the critical value with \"Significant Difference\" in remarks: (Andhra Pradesh, Arunachal Pradesh, Assam, Bihar, Chhattisgarh, Goa, Gujarat, Haryana, Himachal Pradesh, Jammu And Kashmir, Jharkhand, Karnataka, Kerala, Ladakh, Madhya Pradesh, Maharashtra, Manipur, Meghalaya, Mizoram, Nagaland, Odisha, Puducherry, Punjab, Rajasthan, Sikkim, Tamil Nadu, Telangana, Tripura, Uttar Pradesh, Uttarakhand, West Bengal)"
+      ]
+    }
+  },
+  "No. of Household Tap Connections": {
+    "Jal Jeevan Mission": {
+      "view1": [
+        "* 2 states where Critical Value is not available",
+        "* States which have missing Critical data: Chandigarh, Delhi"
+      ],
+      "view2": [
+        "* 2 states where Department Value is not available",
+        "* States which have missing Department data: Chandigarh, Delhi"
+      ],
+      "view3": "No Insights",
+      "view4": [
+        "* For Day Frequency",
+        "* States with exactly one day gap: 0",
+        "* States with significant remarks and have one day gap: None",
+        "* States with more than one day gap: 15",
+        "* States with significant remarks mismatch and have more than one day gap: 8 (Rajasthan, Uttar Pradesh, West Bengal, Odisha, Chhattisgarh, Madhya Pradesh, Karnataka, Tamil Nadu)"
+      ],
+      "view5": [
+        "\u2022 The top states with the largest absolute differences in values are Rajasthan (1118438.0), Karnataka (1820.0), and Madhya Pradesh (1724.0).",
+        "\u2022 A total of 8 states, including Rajasthan (1118438.0), Karnataka (1820.0), Madhya Pradesh (1724.0), Uttar Pradesh (1518.0), West Bengal (893.0), Tamil Nadu (728.0), Chhattisgarh (523.0), and Odisha (182.0), show significant differences in value.",
+        "\u2022 Value differences ranged from Jharkhand's minimum of 3.0 to Rajasthan's maximum of 1118438.0, with an average absolute difference of 75069.67."
+      ],
+      "view6": "No Insights",
+      "view7": [
+        "\u2022 There are 15 states where the Department API value is higher than the Prayas value: (Andhra Pradesh, Assam, Chhattisgarh, Jammu And Kashmir, Jharkhand, Karnataka, Madhya Pradesh, Meghalaya, Odisha, Rajasthan, Sikkim, Tamil Nadu, Tripura, Uttar Pradesh, West Bengal)",
+        "\u2022 The top 3 states with the largest difference (Department - Prayas) are: (Rajasthan (1118438), Karnataka (1820), Madhya Pradesh (1724))",
+        "\u2022 States with Significant Difference (Department > Prayas) are: (Chhattisgarh, Karnataka, Madhya Pradesh, Odisha, Rajasthan, Tamil Nadu, Uttar Pradesh, West Bengal)"
+      ]
+    }
+  },
+  "No. of Houses Sanctioned": {
+    "PM Awaas Yojana - Grameen": {
+      "view1": [
+        "\u2022 3 states where Critical Value is not available",
+        "\u2022 States which have missing Critical data: Chandigarh, Delhi, Puducherry"
+      ],
+      "view2": [
+        "\u2022 [2] states where Department Value is not available",
+        "\u2022 States which have missing Department data: Chandigarh, Delhi"
+      ],
+      "view3": "No Insights",
+      "view4": [
+        "\u2022 For Month Frequency",
+        "\u2022 States with exactly one month gap: 0",
+        "\u2022 States with significant remarks and have one month gap: None",
+        "\u2022 States with more than one month gap: 24",
+        "\u2022 States with significant remarks mismatch and have more than one month gap: 15 (Punjab, Haryana, Rajasthan, Bihar, Assam, West Bengal, Jharkhand, Odisha, Chhattisgarh, Madhya Pradesh, Maharashtra, Karnataka, Kerala, Tamil Nadu, The Dadra And Nagar Haveli And Daman And Diu)"
+      ],
+      "view5": [
+        "* Top states with the largest absolute differences in values are: Maharashtra (640029.0), Assam (99738.0), Chhattisgarh (55477.0).",
+        "* A total of 15 states show significant differences in value: Maharashtra (640029.0), Assam (99738.0), Chhattisgarh (55477.0), Jharkhand (42327.0), Karnataka (27501.0), Madhya Pradesh (17614.0), Rajasthan (6894.0), Bihar (4435.0), West Bengal (4185.0), Tamil Nadu (803.0), Punjab (573.0), The Dadra And Nagar Haveli And Daman And Diu (441.0), Kerala (274.0), Odisha (261.0), Haryana (242.0).",
+        "* Value differences ranged from a minimum of Mizoram (5.0) to a maximum of Maharashtra (640029.0), with an average absolute difference of 37539.83."
+      ],
+      "view6": [
+        "\u2022 The states where Prayas value is higher than Department value are: (Andaman And Nicobar Islands, Himachal Pradesh, Jammu And Kashmir, Meghalaya, Mizoram, Nagaland, Odisha, Tamil Nadu, Tripura, Uttar Pradesh)",
+        "\u2022 The top 3 states with the largest difference (Prayas - Department) are: (Tamil Nadu (803), Odisha (261), Nagaland (30))",
+        "\u2022 States with Significant Difference (Prayas > Department): (Odisha, Tamil Nadu)"
+      ],
+      "view7": [
+        "\u2022 Total number of states where Department API value is higher than Prayas value: 14 (Assam, Bihar, Chhattisgarh, Haryana, Jharkhand, Karnataka, Kerala, Madhya Pradesh, Maharashtra, Punjab, Rajasthan, The Dadra And Nagar Haveli And Daman And Diu, West Bengal)",
+        "\u2022 Top 3 states with the largest difference (Department - Prayas): (Maharashtra (640029), Assam (99738), Chhattisgarh (55477))",
+        "\u2022 States with Significant Difference (Department > Prayas): (Assam, Bihar, Chhattisgarh, Haryana, Jharkhand, Karnataka, Kerala, Madhya Pradesh, Maharashtra, Punjab, Rajasthan, The Dadra And Nagar Haveli And Daman And Diu, West Bengal)"
+      ]
+    }
+  },
+  "No. of ODF Plus Villages": {
+    "Swachh Bharat Mission - Grameen": {
+      "view1": [
+        "\u2022 2 states where Critical Value is not available",
+        "\u2022 States which have missing Critical data: Chandigarh, Delhi"
+      ],
+      "view2": [
+        "* 2 states where Department Value is not available",
+        "* States which have missing Department data: Chandigarh, Delhi"
+      ],
+      "view3": "No Insights",
+      "view4": [
+        "\u2022 For Day Frequency",
+        "\u2022 States with exactly one day gap: 0",
+        "\u2022 States with significant remarks and have one day gap: None",
+        "\u2022 States with more than one day gap: 10",
+        "\u2022 States with significant remarks mismatch and have more than one day gap: 1 (Rajasthan)"
+      ],
+      "view5": [
+        "\u2022 Top states with the largest absolute difference in values are: Rajasthan (6509.0), Odisha (10.0), Uttarakhand (9.0).",
+        "\u2022 A total of 1 state shows significant differences in value: Rajasthan (6509.0)",
+        "\u2022 Value differences ranged from a minimum of Nagaland (1.0) to a maximum of Rajasthan (6509.0), with an average absolute difference of 655.1."
+      ],
+      "view6": "No Insights",
+      "view7": [
+        "\u2022 There are states where the Department API value is higher than Prayas value: (Bihar, Jharkhand, Maharashtra, Nagaland, Odisha, Rajasthan, Tamil Nadu, Uttar Pradesh, Uttarakhand, West Bengal)",
+        "\u2022 Top 3 states with the largest difference (Department - Prayas): (Rajasthan (6509), Odisha (10), Uttarakhand (9))",
+        "\u2022 States with Significant Difference (Department > Prayas): (Rajasthan)"
+      ]
+    }
+  },
+  "No. of HHs Provided Employment": {
+    "MGNREGA": {
+      "view1": [
+        "* 2 states where Critical Value is not available",
+        "* States which have missing Critical data: Chandigarh, Delhi"
+      ],
+      "view2": [
+        "\u2022 2 states where Department Value is not available",
+        "\u2022 States which have missing Department data: Chandigarh, Delhi"
+      ],
+      "view3": "No Insights",
+      "view4": [
+        "\u2022 For Month Frequency",
+        "\u2022 States with exactly one month gap: 0",
+        "\u2022 States with significant remarks and have one month gap: None",
+        "\u2022 States with more than one month gap: 32",
+        "\u2022 States with significant remarks mismatch and have more than one month gap: 30 (Jammu And Kashmir, Himachal Pradesh, Punjab, Uttarakhand, Haryana, Rajasthan, Uttar Pradesh, Bihar, Sikkim, Arunachal Pradesh, Nagaland, Manipur, Mizoram, Tripura, Meghalaya, Assam, Jharkhand, Odisha, Chhattisgarh, Madhya Pradesh, Gujarat, Maharashtra, Andhra Pradesh, Karnataka, Goa, Kerala, Tamil Nadu, Andaman And Nicobar Islands, Telangana, Ladakh)"
+      ],
+      "view5": [
+        "\u2022 Top states with the largest absolute difference in values are: Uttar Pradesh (158075.0), Tamil Nadu (139266.0), Madhya Pradesh (104307.0).",
+        "\u2022 A total of 30 states show significant differences in value, including major states like Uttar Pradesh, Tamil Nadu, and Madhya Pradesh.",
+        "\u2022 Value differences ranged from a minimum of The Dadra And Nagar Haveli And Daman And Diu (43.0) to a maximum of Uttar Pradesh (158075.0), with an average absolute difference of 26868.25."
+      ],
+      "view6": [
+        "\u2022 There are four states where the Prayas value is higher than the Department value: (Andaman And Nicobar Islands, Goa, Mizoram, The Dadra And Nagar Haveli And Daman And Diu)",
+        "\u2022 The top three states with the largest difference between Prayas and Department values are: (Andaman And Nicobar Islands (454), Goa (432), Mizoram (358))",
+        "\u2022 States where there is a significant difference with Prayas value greater than Department value are: (Andaman And Nicobar Islands, Goa, Mizoram)"
+      ],
+      "view7": [
+        "\u2022 There are 25 states out of 28 where the scrapped value is higher than the critical API value.",
+        "\u2022 The top 3 states with the largest difference between Department and Prayas values are Uttar Pradesh (158075), Tamil Nadu (139266), and Madhya Pradesh (104307).",
+        "\u2022 States such as Andhra Pradesh, Arunachal Pradesh, Assam, Bihar, Chhattisgarh, Gujarat, Haryana, Himachal Pradesh, Jammu And Kashmir, Jharkhand, Karnataka, Kerala, Ladakh, Madhya Pradesh, Maharashtra, Manipur, Meghalaya, Nagaland, Odisha, Punjab, Rajasthan, Sikkim, Tamil Nadu, Telangana, Tripura, and Uttar Pradesh have a significant difference between Department and Prayas values."
+      ]
+    }
+  },
+  "Road Built 2014-23": {
+    "PM Gram Sadak Yojana": {
+      "view1": "No Insights",
+      "view2": [
+        "* 1 state where Department Value is not available",
+        "* States which have missing Department data: The Dadra And Nagar Haveli And Daman And Diu"
+      ],
+      "view3": "No Insights",
+      "view4": [
+        "* For Month Frequency",
+        "* States with exactly one month gap: 0",
+        "* States with significant remarks and have one month gap: None",
+        "* States with more than one month gap: 32",
+        "* States with significant remarks mismatch and have more than one month gap: Jammu And Kashmir, Himachal Pradesh, Uttarakhand, Rajasthan, Uttar Pradesh, Bihar, Arunachal Pradesh, Mizoram, Meghalaya, Assam, Jharkhand, Odisha, Chhattisgarh, Madhya Pradesh, Maharashtra, Andhra Pradesh, Kerala, Tamil Nadu"
+      ],
+      "view5": [
+        "\u2022 The top states with the largest absolute differences in values are Tamil Nadu (1319.34), Maharashtra (1244.45), and Jharkhand (1017.95).",
+        "\u2022 A total of 18 states show significant value differences, including Tamil Nadu (1319.34), Maharashtra (1244.45), Jharkhand (1017.95), Uttarakhand (767.65), Bihar (604.29), Chhattisgarh (572.23), Himachal Pradesh (560.28), Uttar Pradesh (509.82), Arunachal Pradesh (429.05), Odisha (351.88), Andhra Pradesh (339.22), Madhya Pradesh (329.7), Kerala (223.31), Mizoram (223.09), Rajasthan (165.1), Meghalaya (159.63), Jammu And Kashmir (124.55), and Assam (120.28).",
+        "\u2022 Value differences ranged from a minimum of 0.33 in Goa to a maximum of 1319.34 in Tamil Nadu, with an average absolute difference of 298.22."
+      ],
+      "view6": [
+        "\u2022 There are 4 states where Prayas value is higher than Department value: (Goa, Ladakh, Nagaland, Puducherry).",
+        "\u2022 The top 3 states with the largest difference (Prayas - Department) are: (Nagaland (0), Puducherry (0), Ladakh (0)).",
+        "\u2022 There are no states with Significant Difference (Prayas > Department): (None)."
+      ],
+      "view7": [
+        "\u2022 Out of the total 28 Indian states, the scrapped value is higher than the critical API value in states where the Department API value is higher than Prayas value: (Andaman And Nicobar Islands, Andhra Pradesh, Arunachal Pradesh, Assam, Bihar, Chhattisgarh, Gujarat, Haryana, Himachal Pradesh, Jammu And Kashmir, Jharkhand, Karnataka, Kerala, Madhya Pradesh, Maharashtra, Manipur, Meghalaya, Mizoram, Odisha, Punjab, Rajasthan, Sikkim, Tamil Nadu, Telangana, Tripura, Uttar Pradesh, Uttarakhand, West Bengal)",
+        "\u2022 The top 3 states with the largest difference between Department and Prayas API values are: (Tamil Nadu (1319), Maharashtra (1244), Jharkhand (1017))",
+        "\u2022 States with a significant difference in remarks where the scrapped value is greater than the critical value include: (Andhra Pradesh, Arunachal Pradesh, Assam, Bihar, Chhattisgarh, Himachal Pradesh, Jammu And Kashmir, Jharkhand, Kerala, Madhya Pradesh, Maharashtra, Meghalaya, Mizoram, Odisha, Rajasthan, Tamil Nadu, Uttar Pradesh, Uttarakhand)"
+      ]
+    }
+  },
+  "Assets Created": {
+    "MGNREGA": {
+      "view1": [
+        "* 2 states where Critical Value is not available",
+        "* Chandigarh, Delhi"
+      ],
+      "view2": [
+        "* 2 states where Department Value is not available",
+        "* States which have missing Department data: Chandigarh, Delhi"
+      ],
+      "view3": "No Insights",
+      "view4": [
+        "\u2022 For Month Frequency",
+        "\u2022 States with exactly one month gap: 0",
+        "\u2022 States with significant remarks and have one month gap: None",
+        "\u2022 States with more than one month gap: 30",
+        "\u2022 States with significant remarks mismatch and have more than one month gap: Himachal Pradesh, Punjab, Rajasthan, Uttar Pradesh, Bihar, Mizoram, Tripura, Meghalaya, Assam, Jharkhand, Odisha, Chhattisgarh, Madhya Pradesh, Gujarat, Maharashtra, Andhra Pradesh, Karnataka, Kerala, Tamil Nadu, Telangana"
+      ],
+      "view5": [
+        "\u2022 The top states with the largest absolute differences in values are Maharashtra (8968.0), Uttar Pradesh (5921.0), and Chhattisgarh (4761.0).",
+        "\u2022 A total of 20 states exhibit significant value differences: Maharashtra (8968.0), Uttar Pradesh (5921.0), Chhattisgarh (4761.0), Bihar (3979.0), Madhya Pradesh (3270.0), Assam (3231.0), Karnataka (1602.0), Telangana (1597.0), Odisha (1533.0), Tamil Nadu (1497.0), Jharkhand (1298.0), Kerala (996.0), Gujarat (883.0), Himachal Pradesh (589.0), Mizoram (246.0), Andhra Pradesh (239.0), Meghalaya (214.0), Rajasthan (202.0), Punjab (190.0), Tripura (132.0).",
+        "\u2022 Value differences ranged from a minimum of Arunachal Pradesh (1.0) to a maximum of Maharashtra (8968.0), with an average absolute difference of 1386.8."
+      ],
+      "view6": "No Insights",
+      "view7": [
+        "* Out of the 30 states analyzed, 20 have a Department API value higher than Prayas value: (Andhra Pradesh, Assam, Bihar, Chhattisgarh, Goa, Gujarat, Haryana, Himachal Pradesh, Jammu And Kashmir, Jharkhand, Karnataka, Kerala, Ladakh, Madhya Pradesh, Maharashtra, Manipur, Meghalaya, Mizoram, Nagaland, Odisha)",
+        "* The top 3 states with the largest difference (Department - Prayas) are: (Maharashtra (8968), Uttar Pradesh (5921), Chhattisgarh (4761))",
+        "* States where Department value is greater than Prayas and have a \"Significant Difference\" in remarks are: (Andhra Pradesh, Assam, Bihar, Chhattisgarh, Gujarat, Himachal Pradesh, Jharkhand, Karnataka, Kerala, Madhya Pradesh, Maharashtra, Meghalaya, Mizoram, Odisha, Punjab, Rajasthan, Tamil Nadu, Telangana, Tripura, Uttar Pradesh)"
+      ]
+    }
+  },
+  "SHGs Promoted": {
+    "National Rural Livelihood Mission": {
+      "view1": [
+        "* 2 states where Critical Value is not available",
+        "* Chandigarh, Delhi"
+      ],
+      "view2": [
+        "\u2022 [2] states where Department Value is not available",
+        "\u2022 States which have missing Department data: Chandigarh, Delhi"
+      ],
+      "view3": "No Insights",
+      "view4": [
+        "\u2022 For Month Frequency",
+        "\u2022 States with exactly one month gap: 0",
+        "\u2022 States with significant remarks and have one month gap: None",
+        "\u2022 States with more than one month gap: 34",
+        "\u2022 States with significant remarks mismatch and have more than one month gap: Jammu And Kashmir, Himachal Pradesh, Punjab, Uttarakhand, Haryana, Uttar Pradesh, Bihar, Manipur, Tripura, Meghalaya, Assam, West Bengal, Jharkhand, Odisha, Chhattisgarh, Madhya Pradesh, Gujarat, Maharashtra, Andhra Pradesh, Karnataka, Tamil Nadu, Telangana"
+      ],
+      "view5": [
+        "\u2022 Top states with the largest absolute difference in values are: West Bengal (406014.0), Andhra Pradesh (78531.0), Maharashtra (35809.0).",
+        "\u2022 A total of 22 states show significant differences in value: West Bengal (406014.0), Andhra Pradesh (78531.0), Maharashtra (35809.0), Chhattisgarh (14387.0), Tamil Nadu (10206.0), Madhya Pradesh (8805.0), Uttar Pradesh (4380.0), Karnataka (1446.0), Odisha (1212.0), Gujarat (926.0), Bihar (589.0), Jharkhand (376.0), Haryana (253.0), Assam (248.0), Telangana (223.0), Jammu And Kashmir (196.0), Himachal Pradesh (193.0), Meghalaya (191.0), Punjab (166.0), Uttarakhand (138.0), Manipur (130.0), Tripura (117.0)",
+        "\u2022 Value differences ranged from a minimum of Lakshadweep (1.0) to a maximum of West Bengal (406014.0), with an average absolute difference of 16614.32."
+      ],
+      "view6": "No Insights",
+      "view7": [
+        "\u2022 34 states where Department API value is higher than Prayas value: (Andaman And Nicobar Islands, Andhra Pradesh, Arunachal Pradesh, Assam, Bihar, Chhattisgarh, Goa, Gujarat, Haryana, Himachal Pradesh, Jammu And Kashmir, Jharkhand, Karnataka, Kerala, Ladakh, Lakshadweep, Madhya Pradesh, Maharashtra, Manipur, Meghalaya, Mizoram, Nagaland, Odisha, Puducherry, Punjab, Rajasthan, Sikkim, Tamil Nadu, Telangana, The Dadra And Nagar Haveli And Daman And Diu, Tripura, Uttar Pradesh, Uttarakhand, West Bengal)",
+        "\u2022 Top 3 states with the largest difference (Department - Prayas): (West Bengal (406014), Andhra Pradesh (78531), Maharashtra (35809))",
+        "\u2022 States with Significant Difference (Department > Prayas): (Andhra Pradesh, Assam, Bihar, Chhattisgarh, Gujarat, Haryana, Himachal Pradesh, Jammu And Kashmir, Jharkhand, Karnataka, Madhya Pradesh, Maharashtra, Manipur, Meghalaya, Odisha, Punjab, Tamil Nadu, Telangana, Tripura, Uttar Pradesh, Uttarakhand, West Bengal)"
+      ]
+    }
+  }
+}
