@@ -16,7 +16,7 @@ function Header() {
         <Navbar />
       </div>
     </div>
-   <p className="text-[#d63230] bg-white  font-medium text-[12px] pt-[1px] text-end"><span className="text-black font-black">*</span>To view/compare past data, please check historical report</p>
+   <p className="text-[#d63230] bg-white mr-2 font-medium text-[12px] pt-[1px] text-end"><span className="text-black font-black">*</span>To view/compare past data, please check historical report</p>
   </div>
   );
 }

@@ -18,7 +18,7 @@ DRIVER = settings.driver
 CONNECTION_STRING = f"DRIVER={DRIVER};SERVER={SERVER};DATABASE={DATABASE};Trusted_Connection=yes"
 
 # Set Indian locale for numeric formatting
-locale.setlocale(locale.LC_ALL, 'en_IN')
+locale.setlocale(locale.LC_ALL, 'English_India')
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
@@ -82,22 +82,29 @@ def number_to_indian_currency_format(num, is_difference: bool = True, two_decima
             num = float(num)
         except ValueError:
             return "NA"
+    if isinstance(num, float) and math.isnan(num):
+        return "NA"
+
     is_negative = (num < 0)
     num = abs(num)
+
     if num == 0.0:
         return "0.00" if two_decimal else "0"
+
     if is_difference and num < 100000:
         if two_decimal:
             formatted_num = locale.format_string("%.2f", num, grouping=True)
         else:
             formatted_num = locale.format_string("%d", int(round(num)), grouping=True)
         return f"-{formatted_num}" if is_negative else formatted_num
+
     def fmt(val):
         return f"{val:.2f}" if two_decimal else f"{val:.2f}"
+
     if num >= 10**11:
         formatted_num = f"{fmt(num / 10**11)} Lakh Cr"
     elif num >= 10**9:
-        formatted_num = f"{fmt(num / 10**9)} Th Cr"
+        formatted_num = f"{fmt(num / 10**10)} Th Cr"
     elif num >= 10**7:
         formatted_num = f"{fmt(num / 10**7)} Cr"
     elif num >= 10**5:
@@ -107,7 +114,9 @@ def number_to_indian_currency_format(num, is_difference: bool = True, two_decima
             formatted_num = locale.format_string("%.2f", num, grouping=True)
         else:
             formatted_num = locale.format_string("%d", int(round(num)), grouping=True)
+
     return f"-{formatted_num}" if is_negative else formatted_num
+
 
 def format_date_custom(val) -> str:
     """Convert a pd.Timestamp or datetime to dd--mm--yyyy format, or return 'NA' if null."""
@@ -126,7 +135,7 @@ def matching_data_national(with_units: bool = True) -> Dict[str, Any]:
         cursor = conn.cursor()
         
         sql_query_scrapped =f""";with cte as (\
-                        SELECT* ,Row_number() over (partition by KPI_id,national_id order by Scrapped_value_date_of_data desc) as Row_num
+                        SELECT* ,Row_number() over (partition by KPI_id, national_id, source order by Scrapped_value_date_of_data desc) as Row_num
                         FROM {settings.national_table_name1} \
                         )\
                         Select * from Cte where Row_num = 1"""
@@ -137,7 +146,7 @@ def matching_data_national(with_units: bool = True) -> Dict[str, Any]:
         scrapped_columns = [col[0] for col in cursor.description]
         scrapped_data = [list(row) for row in scrapped_data]
         scrapped_df = pd.DataFrame(scrapped_data, columns=scrapped_columns).drop_duplicates()
-        print("--169",scrapped_df)
+        
         
             # Fetch scheme national data
         sql_query_critical =f" with cte as (\
@@ -150,10 +159,30 @@ def matching_data_national(with_units: bool = True) -> Dict[str, Any]:
         scheme_columns = [col[0] for col in cursor.description]
         scheme_data = [list(row) for row in scheme_data]
         scheme_df = pd.DataFrame(scheme_data, columns=scheme_columns).drop_duplicates()
-        print("--182",scheme_df)
+        
+        
+        # Separate based on 'source'
+        df_excel = scrapped_df[scrapped_df['source'] == 'excel'].copy()
+        df_scraped = scrapped_df[scrapped_df['source'] == 'scraped'].copy()
+
+        # Rename columns (except join keys) for clarity
+        excel_suffix = '_excel'
+
+        # Keep join keys
+        join_keys = ['kpi_id', 'national_id']
+
+        df_excel = df_excel.rename(columns={
+            col: col + excel_suffix for col in df_excel.columns if col not in join_keys
+        })
+        #df_scraped = df_scraped.rename(columns={
+        #    col: col + scraped_suffix for col in df_scraped.columns if col not in join_keys
+        #})
+
+        # Merge on KPI and national IDs
+        scrapped_df = pd.merge(df_excel, df_scraped, on=join_keys, how='outer')
         
         # Define grouping columns for national data
-        group_cols = ['kpi_id', 'national_id', 'National', 'Scheme', 'KPI']
+        group_cols = ['kpi_id', 'national_id']
         
         # For scrapped data, aggregate so that for scrapped_value_date_of_data we take the maximum.
         agg_dict = {
@@ -165,10 +194,16 @@ def matching_data_national(with_units: bool = True) -> Dict[str, Any]:
             "Absolute Difference": "first",
             "% Difference": "first",
             "Remarks": "first",
-            "Input Type": "first"
+            "Input Type": "first",
+
+            "critical_api_scrapped_at_excel": "first",
+            "scrapped_value_excel": "first",
+            "scrapped_value_date_of_data_excel": "max",
+            "MisMatch_excel": "first",
+            "Absolute Difference_excel": "first",
+            "% Difference_excel": "first"
         }
         agg_scrapped_df = scrapped_df.groupby(group_cols, as_index=False).agg(agg_dict)
-        print("aggregate script",  agg_scrapped_df.columns)
         
         # For scheme data, pick the row with the latest critical_api_scrapped_at in each group.
         def get_group_max(df):
@@ -212,21 +247,35 @@ def matching_data_national(with_units: bool = True) -> Dict[str, Any]:
             scheme_diff_raw = get_number(row.get("Absolute Difference_scheme"))
             scheme_diff_percent_raw = get_number(row.get("% Difference_scheme"))
             
+            native_value_raw_excel = get_number(row.get("scrapped_value_excel"))
+            native_diff_raw_excel = get_number(row.get("Absolute Difference_excel"))
+            native_diff_percent_raw_excel = get_number(row.get("% Difference_excel"))
+            
             if with_units:
                 formatted_critical_api_value = number_to_indian_currency_format(critical_api_value_raw, False, two_decimal)
                 formatted_native_value = number_to_indian_currency_format(native_value_raw, False, two_decimal)
                 formatted_scheme_value = number_to_indian_currency_format(scheme_value_raw, False, two_decimal)
                 formatted_native_diff = number_to_indian_currency_format(native_diff_raw, True, two_decimal)
                 formatted_scheme_diff = number_to_indian_currency_format(scheme_diff_raw, True, two_decimal)
+
+                formatted_native_value_excel = number_to_indian_currency_format(native_value_raw_excel, False, two_decimal)
+                formatted_native_diff_excel = number_to_indian_currency_format(native_diff_raw_excel, True, two_decimal)
+                
+
             else:
                 formatted_critical_api_value = format_number(critical_api_value_raw, two_decimal)
                 formatted_native_value = format_number(native_value_raw, two_decimal)
                 formatted_scheme_value = format_number(scheme_value_raw, two_decimal)
                 formatted_native_diff = format_number(native_diff_raw, two_decimal)
                 formatted_scheme_diff = format_number(scheme_diff_raw, two_decimal)
+
+                formatted_native_value_excel = format_number(native_value_raw_excel, two_decimal)
+                formatted_native_diff_excel = format_number(native_diff_raw_excel, two_decimal)
             
             formatted_native_diff_percent = f"{native_diff_percent_raw:.2f}" if native_diff_percent_raw is not None else "NA"
             formatted_scheme_diff_percent = f"{scheme_diff_percent_raw:.2f}" if scheme_diff_percent_raw is not None else "NA"
+            
+            formatted_native_diff_percent_excel = f"{native_diff_percent_raw_excel:.2f}" if native_diff_percent_raw_excel is not None else "NA"
             
             # Compute the final date:
             # Retrieve the critical API date and the aggregated scrapped date.
@@ -263,9 +312,9 @@ def matching_data_national(with_units: bool = True) -> Dict[str, Any]:
                 "schemeDashDiff_raw": scheme_diff_raw,
                 "schemeDashDiffPercent": formatted_scheme_diff_percent,
                 "schemeDashDiffPercent_raw": scheme_diff_percent_raw,
-                "deptExcelValue": "NA",
-                "deptExcelDiff": "NA",
-                "deptExcelDiffPercent": "NA",
+                "deptExcelValue": formatted_native_value_excel,
+                "deptExcelDiff": formatted_native_diff_excel,
+                "deptExcelDiffPercent": formatted_native_diff_percent_excel,
                 "deptApiValue": "NA",
                 "deptApiDiff": "NA",
                 "deptApiDiffPercent": "NA",
@@ -293,7 +342,7 @@ def matching_data_state(with_units: bool = True) -> Dict[str, Any]:
         cursor = conn.cursor()
         # cursor.execute(f"SELECT * FROM {state_table_name1}")
         sql_query_scrapped =f""";with cte as (\
-SELECT* ,Row_number() over (partition by KPI_id,State_id order by Scrapped_value_date_of_data desc) as Row_num
+SELECT* ,Row_number() over (partition by KPI_id,State_id, source order by Scrapped_value_date_of_data desc) as Row_num
   FROM {settings.state_table_name1} \
   )\
   Select * from Cte where Row_num = 1"""
@@ -317,8 +366,22 @@ SELECT* ,Row_number() over (partition by KPI_id,State_id order by critical_api_s
         scheme_data = [list(row) for row in scheme_data]
         scheme_df = pd.DataFrame(scheme_data, columns=scheme_columns).drop_duplicates()
         print(scheme_df.columns)
+
+        df_excel = scrapped_df[scrapped_df['source'] == 'excel'].copy()
+        df_scraped = scrapped_df[scrapped_df['source'] == 'scraped'].copy()
+
+        # Rename columns (except join keys) for clarity
+        excel_suffix = '_excel'
         
         group_cols = ['kpi_id', 'state_id']
+        join_keys = ['kpi_id', 'state_id']
+
+        df_excel = df_excel.rename(columns={
+            col: col + excel_suffix for col in df_excel.columns if col not in join_keys
+        })
+
+        scrapped_df = pd.merge(df_excel, df_scraped, on=join_keys, how='outer')
+        
         # For scrapped data, aggregate so that for scrapped_value_date_of_data we take the maximum
         agg_dict = {
             "critical_api_value": "first",
@@ -329,7 +392,14 @@ SELECT* ,Row_number() over (partition by KPI_id,State_id order by critical_api_s
             "Absolute Difference": "first",
             "% Difference": "first",
             "Remarks": "first",
-            "Input Type": "first"
+            "Input Type": "first",
+
+            "critical_api_scrapped_at_excel": "first",
+            "scrapped_value_excel": "first",
+            "scrapped_value_date_of_data_excel": "max",
+            "MisMatch_excel": "first",
+            "Absolute Difference_excel": "first",
+            "% Difference_excel": "first"
         }
         agg_scrapped_df = scrapped_df.groupby(group_cols, as_index=False).agg(agg_dict)
 
@@ -397,6 +467,10 @@ SELECT* ,Row_number() over (partition by KPI_id,State_id order by critical_api_s
             native_diff_percent_raw = get_number(row.get("% Difference_scrapped"))
             scheme_diff_raw = get_number(row.get("Absolute Difference_scheme"))
             scheme_diff_percent_raw = get_number(row.get("% Difference_scheme"))
+
+            native_value_raw_excel = get_number(row.get("scrapped_value_excel"))
+            native_diff_raw_excel = get_number(row.get("Absolute Difference_excel"))
+            native_diff_percent_raw_excel = get_number(row.get("% Difference_excel"))
             
             if with_units:
                 formatted_critical_api_value = number_to_indian_currency_format(critical_api_value_raw, False, two_decimal)
@@ -404,18 +478,28 @@ SELECT* ,Row_number() over (partition by KPI_id,State_id order by critical_api_s
                 formatted_scheme_value = number_to_indian_currency_format(scheme_value_raw, False, two_decimal)
                 formatted_native_diff = number_to_indian_currency_format(native_diff_raw, True, two_decimal)
                 formatted_scheme_diff = number_to_indian_currency_format(scheme_diff_raw, True, two_decimal)
+            
+                formatted_native_value_excel = number_to_indian_currency_format(native_value_raw_excel, False, two_decimal)
+                formatted_native_diff_excel = number_to_indian_currency_format(native_diff_raw_excel, True, two_decimal)
+                
+            
             else:
                 formatted_critical_api_value = format_number(critical_api_value_raw, two_decimal)
                 formatted_native_value = format_number(native_value_raw, two_decimal)
                 formatted_scheme_value = format_number(scheme_value_raw, two_decimal)
                 formatted_native_diff = format_number(native_diff_raw, two_decimal)
                 formatted_scheme_diff = format_number(scheme_diff_raw, two_decimal)
+
+                formatted_native_value_excel = format_number(native_value_raw_excel, two_decimal)
+                formatted_native_diff_excel = format_number(native_diff_raw_excel, two_decimal)
                 
             # print("nativr value",formatted_native_value)
             formatted_native_diff_percent = format_percentage_with_min(native_diff_percent_raw) if native_diff_percent_raw is not None else "NA"
-
             formatted_scheme_diff_percent = format_percentage_with_min(scheme_diff_percent_raw) if scheme_diff_percent_raw is not None else "NA"
             
+            formatted_native_diff_percent_excel = f"{native_diff_percent_raw_excel:.2f}" if native_diff_percent_raw_excel is not None else "NA"
+            
+
             # Determine final date: if critical_api_scrapped_at equals scrapped_value_date_of_data, use that; else use scrapped_value_date_of_data.
             crit_date = row.get("critical_api_scrapped_at_scrapped")
             scrap_date = row.get("scrapped_value_date_of_data")
@@ -451,9 +535,9 @@ SELECT* ,Row_number() over (partition by KPI_id,State_id order by critical_api_s
                 "schemeDashDiff_raw": scheme_diff_raw,
                 "schemeDashDiffPercent": formatted_scheme_diff_percent,
                 "schemeDashDiffPercent_raw": scheme_diff_percent_raw,
-                "deptExcelValue": "NA",
-                "deptExcelDiff": "NA",
-                "deptExcelDiffPercent": "NA",
+                "deptExcelValue": formatted_native_value_excel,
+                "deptExcelDiff": formatted_native_diff_excel,
+                "deptExcelDiffPercent": formatted_native_diff_percent_excel,
                 "deptApiValue": "NA",
                 "deptApiDiff": "NA",
                 "deptApiDiffPercent": "NA",
@@ -497,7 +581,7 @@ def matching_data_district(with_units: bool = True) -> Dict[str, Any]:
     try:
         cursor = conn.cursor()
         sql_query_scrapped =f""";with cte as (\
-SELECT* ,Row_number() over (partition by KPI_id,district_id order by Scrapped_value_date_of_data desc) as Row_num
+SELECT* ,Row_number() over (partition by KPI_id,district_id, source order by Scrapped_value_date_of_data desc) as Row_num
   FROM {settings.district_table_name1} \
   )\
   Select * from Cte where Row_num = 1"""
@@ -509,7 +593,6 @@ SELECT* ,Row_number() over (partition by KPI_id,district_id order by Scrapped_va
         scrapped_columns = [col[0] for col in cursor.description]
         scrapped_data = [list(row) for row in scrapped_data]
         scrapped_df = pd.DataFrame(scrapped_data, columns=scrapped_columns).drop_duplicates()
-        print("scrapped_df",scrapped_df)
         
         
         # Fetch district scheme data
@@ -523,8 +606,21 @@ SELECT* ,Row_number() over (partition by KPI_id,district_id order by critical_ap
         scheme_columns = [col[0] for col in cursor.description]
         scheme_data = [list(row) for row in scheme_data]
         scheme_df = pd.DataFrame(scheme_data, columns=scheme_columns).drop_duplicates()
-        print("scheme_df",scheme_df.head(5))
+
+        # Separate based on 'source'
+        df_excel = scrapped_df[scrapped_df['source'] == 'excel'].copy()
+        df_scraped = scrapped_df[scrapped_df['source'] == 'scraped'].copy()
         
+        # Rename columns (except join keys) 
+        excel_suffix = '_excel'
+
+        join_keys = ['kpi_id', 'district_id']
+
+        df_excel = df_excel.rename(columns={
+            col: col + excel_suffix for col in df_excel.columns if col not in join_keys
+        })
+
+        scrapped_df = pd.merge(df_excel, df_scraped, on=join_keys, how='outer')
         
         # Define group key columns for district level
         group_cols = ['kpi_id', 'district_id']
@@ -541,10 +637,16 @@ SELECT* ,Row_number() over (partition by KPI_id,district_id order by critical_ap
             "Absolute Difference": "first",
             "% Difference": "first",
             "Remarks": "first",
-            "Input Type": "first"
+            "Input Type": "first",
+
+            "critical_api_scrapped_at_excel": "first",
+            "scrapped_value_excel": "first",
+            "scrapped_value_date_of_data_excel": "max",
+            "MisMatch_excel": "first",
+            "Absolute Difference_excel": "first",
+            "% Difference_excel": "first"
         }
         agg_scrapped_df = scrapped_df.groupby(group_cols, as_index=False).agg(agg_dict)
-        print("agg_scrapped_df",agg_scrapped_df.head(5))
         
         # For scheme district data, select the row with the maximum critical_api_scrapped_at per group.
         def get_group_max(df):
@@ -597,6 +699,10 @@ SELECT* ,Row_number() over (partition by KPI_id,district_id order by critical_ap
             native_diff_percent_raw = get_number(row.get("% Difference_scrapped"))
             scheme_diff_raw = get_number(row.get("Absolute Difference_scheme"))
             scheme_diff_percent_raw = get_number(row.get("% Difference_scheme"))
+
+            native_value_raw_excel = get_number(row.get("scrapped_value_excel"))
+            native_diff_raw_excel = get_number(row.get("Absolute Difference_excel"))
+            native_diff_percent_raw_excel = get_number(row.get("% Difference_excel"))
             
             if with_units:
                 formatted_critical_api_value = number_to_indian_currency_format(critical_api_value_raw, False, two_decimal)
@@ -604,15 +710,25 @@ SELECT* ,Row_number() over (partition by KPI_id,district_id order by critical_ap
                 formatted_scheme_value = number_to_indian_currency_format(scheme_value_raw, False, two_decimal)
                 formatted_native_diff = number_to_indian_currency_format(native_diff_raw, True, two_decimal)
                 formatted_scheme_diff = number_to_indian_currency_format(scheme_diff_raw, True, two_decimal)
+
+                formatted_native_value_excel = number_to_indian_currency_format(native_value_raw_excel, False, two_decimal)
+                formatted_native_diff_excel = number_to_indian_currency_format(native_diff_raw_excel, True, two_decimal)
+                
             else:
                 formatted_critical_api_value = format_number(critical_api_value_raw, two_decimal)
                 formatted_native_value = format_number(native_value_raw, two_decimal)
                 formatted_scheme_value = format_number(scheme_value_raw, two_decimal)
                 formatted_native_diff = format_number(native_diff_raw, two_decimal)
                 formatted_scheme_diff = format_number(scheme_diff_raw, two_decimal)
+
+                formatted_native_value_excel = format_number(native_value_raw_excel, two_decimal)
+                formatted_native_diff_excel = format_number(native_diff_raw_excel, two_decimal)
             
             formatted_native_diff_percent = format_percentage_with_min(native_diff_percent_raw)
             formatted_scheme_diff_percent = format_percentage_with_min(scheme_diff_percent_raw)
+
+            formatted_native_diff_percent_excel = f"{native_diff_percent_raw_excel:.2f}" if native_diff_percent_raw_excel is not None else "NA"
+            
 
             
             # Compute the final date:
@@ -656,9 +772,9 @@ SELECT* ,Row_number() over (partition by KPI_id,district_id order by critical_ap
                 "schemeDashDiff_raw": scheme_diff_raw,
                 "schemeDashDiffPercent": formatted_scheme_diff_percent,
                 "schemeDashDiffPercent_raw": scheme_diff_percent_raw,
-                #"deptExcelValue": "NA",
-                #"deptExcelDiff": "NA",
-                #"deptExcelDiffPercent": "NA",
+                "deptExcelValue": formatted_native_value_excel,
+                "deptExcelDiff": formatted_native_diff_excel,
+                "deptExcelDiffPercent": formatted_native_diff_percent_excel,
                 #"deptApiValue": "NA",
                 #"deptApiDiff": "NA",
                 #"deptApiDiffPercent": "NA",

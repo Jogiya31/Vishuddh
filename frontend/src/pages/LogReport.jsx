@@ -104,7 +104,8 @@ const LogReport = () => {
 
   return (
     <>
-      <div className="py-8 mt-[23px] font-small" style={{paddingBottom:'100px'}}>
+      <div className="py-4 font-small">
+        {/* <div className="py-8 mt-[23px] font-small" style={{paddingBottom:'100px'}}> */}
         <div className="h-[45px] py-4 bg-[#4059ad] text-white flex items-center justify-center rounded-lg shadow-lg">
           <div className="flex justify-center items-center w-full px-4">
             <h1 className="text-l font-semibold w-full flex">
@@ -113,8 +114,9 @@ const LogReport = () => {
             <div className="w-full flex justify-end gap-2">
               <h2
                 className="text-xs border py-0.5 px-2 rounded-[12px] cursor-pointer"
-                onClick={() => {navigate("/current/national");
-                   localStorage.setItem('refresh', 'true');
+                onClick={() => {
+                  navigate("/current/national");
+                  localStorage.setItem("refresh", "true");
                 }}
               >
                 Go to Report

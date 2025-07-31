@@ -13,8 +13,11 @@ env/
 
 #daid packages
 
+daid_packages/
 
 # reactjs 
+
+dist/
 
 # Environment variable files
 .env
