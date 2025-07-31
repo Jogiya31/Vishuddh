@@ -2,7 +2,14 @@ import React, { useState, useRef, useEffect } from "react";
 import { Calendar } from "react-date-range";
 import { formatToDDMMYYYY } from "../config/config";
 
-const Filters = ({ schemes, selectedScheme, setScheme, kpis, selectedKpi, setKpi }) => {
+const Filters = ({
+  schemes,
+  selectedScheme,
+  setScheme,
+  kpis,
+  selectedKpi,
+  setKpi,
+}) => {
   const [schemeDropdownOpen, setSchemeDropdownOpen] = useState(false);
   const [kpiDropdownOpen, setKpiDropdownOpen] = useState(false);
   const [schemeSearch, setSchemeSearch] = useState("");
@@ -61,12 +68,16 @@ const Filters = ({ schemes, selectedScheme, setScheme, kpis, selectedKpi, setKpi
           {/* Scheme Dropdown */}
           <div className="relative" ref={schemeDropdownRef}>
             <div className="flex flex-col">
-              <label htmlFor="" className="text-xs font-medium">Select Scheme</label>
+              <label htmlFor="" className="text-xs font-medium">
+                Select Scheme
+              </label>
               <button
                 onClick={() => setSchemeDropdownOpen(!schemeDropdownOpen)}
                 className="text-[12px] bg-[#70a7d8] px-4 py-2 text-white rounded-2xl w-60"
               >
-                {selectedScheme || "Select Scheme"}
+                {selectedScheme === "undefined"
+                  ? "Select Scheme"
+                  : selectedScheme}
               </button>
             </div>
 
@@ -93,7 +104,9 @@ const Filters = ({ schemes, selectedScheme, setScheme, kpis, selectedKpi, setKpi
                     </label>
                   ))}
                   {filteredSchemes.length === 0 && (
-                    <div className="p-2 text-gray-400 text-sm">No schemes found.</div>
+                    <div className="p-2 text-gray-400 text-sm">
+                      No schemes found.
+                    </div>
                   )}
                 </div>
               </div>
@@ -103,14 +116,19 @@ const Filters = ({ schemes, selectedScheme, setScheme, kpis, selectedKpi, setKpi
           {/* KPI Dropdown */}
           <div className="relative" ref={kpiDropdownRef}>
             <div className="flex flex-col">
-              <label htmlFor="" className="text-xs font-medium
-">Select KPI</label>
+              <label
+                htmlFor=""
+                className="text-xs font-medium
+"
+              >
+                Select KPI
+              </label>
               <button
                 onClick={() => setKpiDropdownOpen(!kpiDropdownOpen)}
                 className="text-[12px] bg-[#70a7d8] px-4 py-2 text-white rounded-2xl w-60"
                 disabled={!selectedScheme}
               >
-                {selectedKpi ? `${selectedKpi}` : "Select KPI"}
+                {selectedKpi !== "undefined" ? `${selectedKpi}` : "Select KPI"}
               </button>
             </div>
 
@@ -137,7 +155,9 @@ const Filters = ({ schemes, selectedScheme, setScheme, kpis, selectedKpi, setKpi
                     </label>
                   ))}
                   {filteredKpis.length === 0 && (
-                    <div className="p-2 text-gray-400 text-sm">No KPIs found.</div>
+                    <div className="p-2 text-gray-400 text-sm">
+                      No KPIs found.
+                    </div>
                   )}
                 </div>
               </div>
@@ -152,7 +172,6 @@ const Filters = ({ schemes, selectedScheme, setScheme, kpis, selectedKpi, setKpi
             className="text-[12px] bg-white px-4 py-2 text-[#70a7d8] rounded-2xl border border-[#70a7d8]"
           >
             {formatToDDMMYYYY(selectedDate)}
-
           </button>
 
           {/* {showCalendar && (

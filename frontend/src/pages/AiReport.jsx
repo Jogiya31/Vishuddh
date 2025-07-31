@@ -17,24 +17,28 @@ const AiReport = () => {
     isLoading: isAiReportLoading,
   } = useFetchAiReportQuery();
 
-  const schemes = aiReport ? Array.from(
-    new Set(
-      Object.values(aiReport.data?.insights ?? {})
-        .map((kpiObj) => Object.keys(kpiObj))
-        .flat()
-    )
-  ) : [];
+  const schemes = aiReport
+    ? Array.from(
+        new Set(
+          Object.values(aiReport.data?.insights ?? {})
+            .map((kpiObj) => Object.keys(kpiObj))
+            .flat()
+        )
+      )
+    : [];
   const [scheme, setScheme] = useState(
     () => localStorage.getItem("ai_scheme") || schemes[0]
   );
 
   const schemeKpiMap = {};
-  Object.entries(aiReport?.data?.insights ?? {}).forEach(([kpiName, schemeObj]) => {
-    Object.keys(schemeObj).forEach((sch) => {
-      if (!schemeKpiMap[sch]) schemeKpiMap[sch] = [];
-      schemeKpiMap[sch].push(kpiName);
-    });
-  });
+  Object.entries(aiReport?.data?.insights ?? {}).forEach(
+    ([kpiName, schemeObj]) => {
+      Object.keys(schemeObj).forEach((sch) => {
+        if (!schemeKpiMap[sch]) schemeKpiMap[sch] = [];
+        schemeKpiMap[sch].push(kpiName);
+      });
+    }
+  );
 
   const availableKpis = scheme ? schemeKpiMap[scheme] || [] : [];
   const [kpi, setKpi] = useState(
@@ -71,10 +75,9 @@ const AiReport = () => {
       localStorage.removeItem("ai_kpi");
     }
   }, [loggedIn]);
-  
 
   return (
-    <div className="bg-white  mt-[53px] pb-[70px]">
+    <div className="bg-white  mt-[2px] pb-[70px]">
       <div className="h-[45px] py-4 bg-[#4059ad] text-white flex items-center justify-center rounded-lg shadow-lg">
         <div className="flex justify-center items-center w-full px-4">
           <h1 className="text-l font-semibold w-full flex">AI Report</h1>
@@ -121,12 +124,16 @@ const AiReport = () => {
         setKpi={setKpi}
       />
 
-     {isAiReportLoading ? <Loader/> : 
-      scheme && kpi && (
-        <>
-          <ViewTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-          <ViewTab insights={insights} tableData={tableData} />
-        </>
+      {isAiReportLoading ? (
+        <Loader />
+      ) : (
+        scheme &&
+        kpi && (
+          <>
+            <ViewTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+            <ViewTab insights={insights} tableData={tableData} />
+          </>
+        )
       )}
     </div>
   );
