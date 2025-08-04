@@ -77,7 +77,7 @@ const AiReport = () => {
   }, [loggedIn]);
 
   return (
-    <div className="bg-white  mt-[2px] pb-[70px]">
+    <div className="bg-white py-2 mt-[10px]">
       <div className="h-[45px] py-4 bg-[#4059ad] text-white flex items-center justify-center rounded-lg shadow-lg">
         <div className="flex justify-center items-center w-full px-4">
           <h1 className="text-l font-semibold w-full flex">AI Report</h1>

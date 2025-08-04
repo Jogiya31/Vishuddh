@@ -128,7 +128,7 @@ const Filters = ({
                 className="text-[12px] bg-[#70a7d8] px-4 py-2 text-white rounded-2xl w-60"
                 disabled={!selectedScheme}
               >
-                {selectedKpi !== "undefined" ? `${selectedKpi}` : "Select KPI"}
+                {selectedKpi === "undefined" ? "Select KPI" : selectedKpi}
               </button>
             </div>
 
