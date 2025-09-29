@@ -104,7 +104,7 @@ const LogReport = () => {
 
   return (
     <>
-      <div className="py-4 font-small">
+      <div className="py-3 font-small">
         {/* <div className="py-8 mt-[23px] font-small" style={{paddingBottom:'100px'}}> */}
         <div className="h-[45px] py-4 bg-[#4059ad] text-white flex items-center justify-center rounded-lg shadow-lg">
           <div className="flex justify-center items-center w-full px-4">

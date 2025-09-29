@@ -175,7 +175,7 @@ const DataInput = () => {
   return (
     <>
       <div
-        className="py-8 mt-[25px] font-small"
+        className="py-3 font-small"
         style={{ paddingBottom: "70px" }}
       >
         <div className="h-[45px] py-4 bg-[#4059ad] text-white flex items-center justify-center rounded-lg shadow-lg">

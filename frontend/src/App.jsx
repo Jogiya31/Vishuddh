@@ -22,6 +22,10 @@ import OverallSummaryReport from "./pages/National";
 import StateSummaryReport from "./pages/State";
 import ManualScraping from "./pages/manualScrapping";
 import Layout from "./components/layout";
+import ToggleMenu from "./components/ExternalSanityComponent/toggleMenu";
+import PullData from "./pages/ExternalSanitypages/pullData";
+import SanityLayout from "./components/ExternalSanityComponent/sanityLayout";
+import Sanity from "./pages/ExternalSanitypages/sanity";
 
 function AppContent() {
   // 🔹 Now it's inside the Provider, so it will work!
@@ -33,6 +37,34 @@ function AppContent() {
         <ToastContainer />
         <Routes>
           <Route path="/" element={<LoginPage />} />
+
+          {/* External Sanity Routes start here */}
+          <Route
+            path="/selection"
+            element={
+              <SanityLayout>
+                <ToggleMenu />
+              </SanityLayout>
+            }
+          />
+          <Route
+            path="/sanity"
+            element={
+              <SanityLayout>
+                <Sanity />
+              </SanityLayout>
+            }
+          />
+           <Route
+            path="/pullData"
+            element={
+              <SanityLayout>
+                <PullData />
+              </SanityLayout>
+            }
+          />
+          {/* External Sanity Routes end here */}
+
           <Route
             path="/home"
             element={

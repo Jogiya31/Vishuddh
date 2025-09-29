@@ -8,13 +8,14 @@ const Overlay = ({ isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-2xl shadow-2xl w-96 relative flex flex-col items-center">
+        {/* this button is not required remove by jogendra kumar */}
         {/* Close Button */}
-        <button
+        {/* <button
           className="absolute top-3 right-3 text-gray-600 hover:text-black"
           onClick={onClose}
         >
           <X size={24} />
-        </button>
+        </button> */}
 
         <h2 className="text-2xl font-bold mb-4">Vishuddh</h2>
 
