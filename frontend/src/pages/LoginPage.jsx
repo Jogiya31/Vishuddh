@@ -17,7 +17,8 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (loggedIn) {
-      navigate("/home");
+      // navigate("/home");
+      navigate("/selection"); // Navigate to selection page after login
     }
   }, [loggedIn, navigate]);
 
@@ -80,7 +81,8 @@ const LoginPage = () => {
           localStorage.setItem("loggedIn", true);
           localStorage.setItem("token", data.token);
           setUserName(data.username);
-          navigate("/home");
+          // navigate("/home");
+          navigate("/selection"); // Navigate to selection page after login
           return { success: true };
         } else {
           throw new Error("User validation failed");
